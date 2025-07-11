@@ -8,6 +8,8 @@ class Launch(models.Model):
     name = models.CharField(max_length=128)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
+    city = models.CharField(max_length=128, default="")
+    state = models.CharField(max_length=50, default="")
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
