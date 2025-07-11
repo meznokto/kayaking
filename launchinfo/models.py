@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from waterinfo.models import Water
+
 class Launch(models.Model):
     """
     Describes a boat launch (location, facilities, etc)
@@ -9,7 +11,9 @@ class Launch(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
     city = models.CharField(max_length=128, default="")
+    county = models.CharField(max_length=128, default="")
     state = models.CharField(max_length=50, default="")
+    body_of_water = models.ForeignKey(Water)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
