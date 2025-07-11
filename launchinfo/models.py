@@ -17,10 +17,6 @@ class Launch(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
-    """
-    Descibes the facilities available at a Launch
-    (toilets, ramp, dock, etc)
-    """
     BathroomType = [
         (0, "None"),            # no bathrooms
         (1, "Outhouse"),        # outhouse/pit

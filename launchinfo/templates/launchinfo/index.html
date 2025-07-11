@@ -8,6 +8,8 @@
 
 <ul role="list">
     {% if latest_launch_list %}
+        {% load tz %}
+        {% localtime on %}
         {% for launch in latest_launch_list %}
         <li>
             <div>
@@ -23,6 +25,7 @@
             </div>
         </li>
         {% endfor %}
+        {% endlocaltime %}
     {% else %}
         <p>No launches are available.</p>
     {% endif %}

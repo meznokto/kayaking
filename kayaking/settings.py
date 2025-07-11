@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'launchinfo.apps.LaunchinfoConfig',
     'waterinfo.apps.WaterinfoConfig',
-    'tripinfo.apps.TripInfo',
+    'tripinfo.apps.TripinfoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
