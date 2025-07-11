@@ -1,0 +1,9 @@
+{% if latest_launch_list %}
+    <ul>
+    {% for launch in latest_launch_list %}
+        <li><a href="{% url 'detail' launch.id %}">{{ launch.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No launches are available.</p>
+{% endif %}
