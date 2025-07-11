@@ -13,7 +13,7 @@ class Launch(models.Model):
     city = models.CharField(max_length=128, default="")
     county = models.CharField(max_length=128, default="")
     state = models.CharField(max_length=50, default="")
-    body_of_water = models.ForeignKey(Water)
+    body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
@@ -25,7 +25,7 @@ class Launch(models.Model):
         (0, "None"),            # no bathrooms
         (1, "Outhouse"),        # outhouse/pit
         (2, "Plumbed"),         # running water
-        (3, "Nearby"),          # neaby bathroom (convenience store, etc)
+        (3, "Nearby"),          # neaby bathroom (convenience store, campground, etc)
     ]
     bathroom_type = models.SmallIntegerField(choices=BathroomType, default=0)
     bathrooms = models.DecimalField(max_digits=3, decimal_places=1, default=0) # number of bathrooms/stalls
@@ -46,7 +46,9 @@ class Launch(models.Model):
     ]
     parking_type = models.SmallIntegerField(choices=ParkingType, default=1)
     pay_parking = models.BooleanField(default=False)            # if payment is required to park
-    pay_info = models.TextField(max_length=128, null=True, blank=True)    # payment details, if needed
+    pay_info = models.TextField(null=True, blank=True)    # payment details, if needed
+
+    comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
