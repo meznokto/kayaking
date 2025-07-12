@@ -13,8 +13,8 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(KayakUser, on_delete=models.DO_NOTHING, default=1)
     is_private = models.BooleanField(default=False)
-    start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField(default=timezone.now)
+    start_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
     body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
     start_launch = models.ForeignKey(Launch, on_delete=models.DO_NOTHING, related_name="trip_start_launch", null=True)
     end_launch = models.ForeignKey(Launch, on_delete=models.DO_NOTHING, related_name="trip_end_launch", null=True)

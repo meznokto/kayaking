@@ -9,7 +9,7 @@ class Launch(models.Model):
     Describes a boat launch (location, facilities, etc)
     """
     name = models.CharField(max_length=128)
-    date_created = models.DateTimeField(default=timezone.now)
+    date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(default=timezone.now)
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
     county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)

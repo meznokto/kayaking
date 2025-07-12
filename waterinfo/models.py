@@ -8,7 +8,7 @@ class Water(models.Model):
     Describes a body of water (lake, river, etc)
     """
     name = models.CharField(max_length=128)
-    date_created = models.DateTimeField(default=timezone.now)
+    date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(default=timezone.now)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)

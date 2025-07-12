@@ -32,7 +32,7 @@ class KayakUser(AbstractBaseUser, PermissionsMixin):
     county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
-    signup_date = models.DateTimeField(default=timezone.now)
+    signup_date = models.DateTimeField(auto_now_add=True)
     birthday = models.DateField(blank=True, null=True)
     avatar = ProcessedImageField(upload_to=generate_unique_avatar_name, processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60}, default="noone.jpg")
 
