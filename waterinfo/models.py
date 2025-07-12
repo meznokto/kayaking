@@ -10,8 +10,8 @@ class Water(models.Model):
     name = models.CharField(max_length=128)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
     WaterType = [
         (0, "River"),
@@ -38,7 +38,7 @@ class Water(models.Model):
         minutes,seconds = divmod(latitude*3600,60)
         degrees,minutes = divmod(minutes,60)
         degrees = degrees if is_positive else -degrees
-        return (degrees,minutes,seconds.normalize())
+        return (degrees,minutes,int(seconds))
     
     def dms_longitude(self):
         is_positive = self.longitude >= 0
@@ -46,4 +46,4 @@ class Water(models.Model):
         minutes,seconds = divmod(longitude*3600,60)
         degrees,minutes = divmod(minutes,60)
         degrees = degrees if is_positive else -degrees
-        return (degrees,minutes,seconds.normalize())
+        return (degrees,minutes,int(seconds))
