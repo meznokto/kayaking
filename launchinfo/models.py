@@ -2,36 +2,7 @@ from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
 
 from waterinfo.models import Water
-
-class Country(models.Model):
-    name = models.CharField(max_length=50)
-    abbr = models.CharField(max_length=5, default="")
-
-    def __str__(self):
-        return self.name
-    
-class State(models.Model):
-    name = models.CharField(max_length=50)
-    abbr = models.CharField(max_length=3)
-    country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
-
-    def __str__(self):
-        return self.name
-    
-class County(models.Model):
-    name = models.CharField(max_length=50)
-    state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
-
-    def __str__(self):
-        return self.state.name + " - " + self.name
-    
-class City(models.Model):
-    name = models.CharField(max_length=50)
-    county = models.ForeignKey(County, on_delete=models.DO_NOTHING, null=True)
-    state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
-
-    def __str__(self):
-        return self.name + ", " + self.state.name
+from kayakutils.models import Country, State, County, City
     
 class Launch(models.Model):
     """
@@ -40,10 +11,10 @@ class Launch(models.Model):
     name = models.CharField(max_length=128)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
-    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
-    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, db_constraint=False)
     body_of_water = models.ForeignKey(Water, on_delete=models.SET_NULL, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)

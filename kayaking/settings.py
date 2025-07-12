@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'waterinfo.apps.WaterinfoConfig',
     'tripinfo.apps.TripinfoConfig',
     'users',
+    'kayakutils',
     'imagekit',
     'django.contrib.admin',
     'django.contrib.auth',
