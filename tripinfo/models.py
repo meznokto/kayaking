@@ -12,6 +12,7 @@ class Trip(models.Model):
     Describes a trip taken on a body of water.
     """
     user = models.ForeignKey(KayakUser, on_delete=models.DO_NOTHING, default=1)
+    is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
     body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
