@@ -12,10 +12,9 @@ from launchinfo.models import Country, State, County, City
 from .managers import KayakUserManager
 
 def generate_unique_avatar_name(instance, filename):
-    ext = filename.split('.')[-1]  # Get the file extension
     # Generate a unique filename using UUID and preserve the extension
+    ext = filename.split('.')[-1]  # Get the file extension
     unique_name = f'{uuid.uuid4().hex}.{ext}'
-    # Optionally, organize files into subdirectories based on model or field
     return os.path.join('avatars', unique_name)
 
 class KayakUser(AbstractBaseUser, PermissionsMixin):

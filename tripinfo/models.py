@@ -5,11 +5,13 @@ from datetime import date
 
 from waterinfo.models import Water
 from launchinfo.models import Launch
+from users.models import KayakUser
 
 class Trip(models.Model):
     """
     Describes a trip taken on a body of water.
     """
+    user = models.ForeignKey(KayakUser, on_delete=models.DO_NOTHING, default=1)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
     body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
