@@ -1,12 +1,22 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
-from imagekit.models import ImageSpecField
+from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+
+import os
+import uuid
 
 from launchinfo.models import Country, State, County, City
 
 from .managers import KayakUserManager
+
+def generate_unique_avatar_name(instance, filename):
+    ext = filename.split('.')[-1]  # Get the file extension
+    # Generate a unique filename using UUID and preserve the extension
+    unique_name = f'{uuid.uuid4().hex}.{ext}'
+    # Optionally, organize files into subdirectories based on model or field
+    return os.path.join('avatars', unique_name)
 
 class KayakUser(AbstractBaseUser, PermissionsMixin):
     """
@@ -25,8 +35,7 @@ class KayakUser(AbstractBaseUser, PermissionsMixin):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     signup_date = models.DateTimeField(default=timezone.now)
     birthday = models.DateField(blank=True, null=True)
-    picture = models.ImageField(upload_to='images/', default="nopicture.jpg")
-    thumbnail = ImageSpecField(source='picture', processors=[ResizeToFill(100, 50)], format='JPEG', options={'quality': 60})
+    avatar = ProcessedImageField(upload_to=generate_unique_avatar_name, processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60}, default="noone.jpg")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
