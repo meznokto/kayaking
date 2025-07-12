@@ -1,6 +1,8 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
 
+from datetime import date
+
 from waterinfo.models import Water
 from launchinfo.models import Launch
 
@@ -13,3 +15,6 @@ class Trip(models.Model):
     body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
     start_launch = models.ForeignKey(Launch, on_delete=models.DO_NOTHING, related_name="trip_start_launch", null=True)
     end_launch = models.ForeignKey(Launch, on_delete=models.DO_NOTHING, related_name="trip_end_launch", null=True)
+
+    def __str__(self):
+        return self.body_of_water.name + " - " + date.strftime(self.start_time, '%d %b %Y')

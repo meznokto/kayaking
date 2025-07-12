@@ -4,6 +4,8 @@ from django.utils import timezone
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from launchinfo.models import Country, State, County, City
+
 from .managers import KayakUserManager
 
 class KayakUser(AbstractBaseUser, PermissionsMixin):
@@ -17,9 +19,10 @@ class KayakUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    city = models.CharField(max_length=128, blank=True)
-    county = models.CharField(max_length=128, blank=True)
-    state = models.CharField(max_length=50, blank=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     signup_date = models.DateTimeField(default=timezone.now)
     birthday = models.DateField(blank=True, null=True)
     picture = models.ImageField(upload_to='images/', default="nopicture.jpg")

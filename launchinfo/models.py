@@ -3,6 +3,36 @@ from django.utils import timezone # type: ignore
 
 from waterinfo.models import Water
 
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=5, default="")
+
+    def __str__(self):
+        return self.name
+    
+class State(models.Model):
+    name = models.CharField(max_length=50)
+    abbr = models.CharField(max_length=3)
+    country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.name
+    
+class County(models.Model):
+    name = models.CharField(max_length=50)
+    state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.state.name + " - " + self.name
+    
+class City(models.Model):
+    name = models.CharField(max_length=50)
+    county = models.ForeignKey(County, on_delete=models.DO_NOTHING, null=True)
+    state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.name + ", " + self.state.name
+    
 class Launch(models.Model):
     """
     Describes a boat launch (location, facilities, etc)
@@ -10,10 +40,11 @@ class Launch(models.Model):
     name = models.CharField(max_length=128)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
-    city = models.CharField(max_length=128, default="")
-    county = models.CharField(max_length=128, default="")
-    state = models.CharField(max_length=50, default="")
-    body_of_water = models.ForeignKey(Water, on_delete=models.DO_NOTHING, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+    body_of_water = models.ForeignKey(Water, on_delete=models.SET_NULL, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
@@ -48,3 +79,4 @@ class Launch(models.Model):
 
     def __str__(self):
         return self.name
+    
