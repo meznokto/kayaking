@@ -18,10 +18,10 @@ class Water(models.Model):
         (3, "Other"),
     ]
     water_type = models.SmallIntegerField(choices=WaterType, default=1)
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, db_constraint=False)
-    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True, db_constraint=False)
-    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, db_constraint=False)
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, db_constraint=False)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     acres = models.FloatField(default=0)    # if we're given one of these we can calculate the other
     hectares = models.FloatField(default=0)
     max_depth_feet = models.PositiveSmallIntegerField(default=0) # we can calculate these, too
