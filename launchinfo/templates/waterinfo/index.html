@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Water Info</title>
+    {% load static %}
+</head>
+<body>
+
+<ul role="list">
+    {% if latest_water_list %}
+        {% load tz %}
+        {% localtime on %}
+        {% for water in latest_water_list %}
+        <li>
+            <div>
+            <p>
+                <a href="{% url 'detail' water.id %}">{{ water.name }}</a>
+            </p>
+            <p>
+                {{ water.city }}, {{ water.state }}
+            </p>
+            </div>
+            <div>
+                <p>Updated {{ water.date_updated }}</p>
+            </div>
+        </li>
+        {% endfor %}
+        {% endlocaltime %}
+    {% else %}
+        <p>No bodies of water are available.</p>
+    {% endif %}
+</ul>
+
+</body>
+</html>

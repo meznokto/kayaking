@@ -1,4 +1,5 @@
 from django.db import models # type: ignore
+from django.utils import timezone # type: ignore
 
 from kayakutils.models import Country, State, County, City
 
@@ -7,7 +8,8 @@ class Water(models.Model):
     Describes a body of water (lake, river, etc)
     """
     name = models.CharField(max_length=128)
-
+    date_created = models.DateTimeField(default=timezone.now)
+    date_updated = models.DateTimeField(default=timezone.now)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
@@ -29,3 +31,19 @@ class Water(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def dms_latitude(self):
+        is_positive = self.latitude >= 0
+        latitude = abs(self.latitude)
+        minutes,seconds = divmod(latitude*3600,60)
+        degrees,minutes = divmod(minutes,60)
+        degrees = degrees if is_positive else -degrees
+        return (degrees,minutes,seconds.normalize())
+    
+    def dms_longitude(self):
+        is_positive = self.longitude >= 0
+        longitude = abs(self.longitude)
+        minutes,seconds = divmod(longitude*3600,60)
+        degrees,minutes = divmod(minutes,60)
+        degrees = degrees if is_positive else -degrees
+        return (degrees,minutes,seconds.normalize())
