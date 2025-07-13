@@ -1,9 +1,17 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 from waterinfo.models import Water
 from kayakutils.models import Country, State, County, City
     
+def generate_unique_launch_name(instance, filename):
+    # Generate a unique filename using UUID and preserve the extension
+    ext = filename.split('.')[-1]  # Get the file extension
+    unique_name = f'{uuid.uuid4().hex}.{ext}'
+    return os.path.join('launches', unique_name)
+
 class Launch(models.Model):
     """
     Describes a boat launch (location, facilities, etc)
@@ -51,3 +59,7 @@ class Launch(models.Model):
     def __str__(self):
         return self.name
     
+class LaunchImage(models.Model):
+    original = models.ImageField(upload_to=generate_unique_launch_name)
+    thumbnail = ImageSpecField(source='original', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    launch = models.ForeignKey(Launch, on_delete=models.CASCADE)

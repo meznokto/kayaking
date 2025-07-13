@@ -1,11 +1,19 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 from datetime import date
 
 from waterinfo.models import Water
 from launchinfo.models import Launch
 from users.models import KayakUser
+
+def generate_unique_trip_name(instance, filename):
+    # Generate a unique filename using UUID and preserve the extension
+    ext = filename.split('.')[-1]  # Get the file extension
+    unique_name = f'{uuid.uuid4().hex}.{ext}'
+    return os.path.join('trips', unique_name)
 
 class Trip(models.Model):
     """
@@ -22,3 +30,8 @@ class Trip(models.Model):
 
     def __str__(self):
         return self.body_of_water.name + " - " + date.strftime(self.start_time, '%d %b %Y')
+
+class TripImage(models.Model):
+    original = models.ImageField(upload_to=generate_unique_trip_name)
+    thumbnail = ImageSpecField(source='original', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)

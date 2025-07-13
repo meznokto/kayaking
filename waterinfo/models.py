@@ -1,7 +1,15 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 from kayakutils.models import Country, State, County, City
+
+def generate_unique_water_name(instance, filename):
+    # Generate a unique filename using UUID and preserve the extension
+    ext = filename.split('.')[-1]  # Get the file extension
+    unique_name = f'{uuid.uuid4().hex}.{ext}'
+    return os.path.join('waters', unique_name)
 
 class Water(models.Model):
     """
@@ -47,3 +55,8 @@ class Water(models.Model):
         degrees,minutes = divmod(minutes,60)
         degrees = degrees if is_positive else -degrees
         return (degrees,minutes,int(seconds))
+    
+class WaterImage(models.Model):
+    original = models.ImageField(upload_to=generate_unique_water_name)
+    thumbnail = ImageSpecField(source='original', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    water = models.ForeignKey(Water, on_delete=models.CASCADE)
