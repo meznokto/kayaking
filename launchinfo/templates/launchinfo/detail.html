@@ -5,7 +5,7 @@
     {% load static %}
 </head>
 <body>
-
+{% load imagekit %}
 {{ launch }}, {{ launch.body_of_water }}
 <br>
 Updated: {{ launch.date_updated }}<br>
@@ -23,5 +23,11 @@ Bathrooms: {{ launch.bathrooms }} ({{ launch.get_bathroom_type_display }})<br>
 {% endif %}
 {% if launch.bathroom_desc %}{{ launch.bathroom_desc }}{% endif %}<br>
 {{ launch.comment }}
+<p></p>
+{% if pictures %}
+    {% for picture in pictures %}
+    <a href="{{ picture.original.url }}" target="_blank"><img src="{{ picture.thumbnail.url }}"/></a>
+    {% endfor %}
+{% endif %}
 </body>
 </html>

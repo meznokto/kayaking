@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Trip Info</title>
+    {% load static %}
+</head>
+<body>
+{% load imagekit %}
+{{ trip }}<br>
+
+<p></p>
+{% if pictures %}
+    {% for picture in pictures %}
+    <a href="{{ picture.original.url }}" target="_blank"><img src="{{ picture.thumbnail.url }}"/></a>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

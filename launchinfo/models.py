@@ -1,7 +1,9 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFit
+import os
+import uuid
 
 from waterinfo.models import Water
 from kayakutils.models import Country, State, County, City
@@ -61,5 +63,5 @@ class Launch(models.Model):
     
 class LaunchImage(models.Model):
     original = models.ImageField(upload_to=generate_unique_launch_name)
-    thumbnail = ImageSpecField(source='original', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    thumbnail = ImageSpecField(source='original', processors=[ResizeToFit(200, 200)], format='JPEG', options={'quality': 60})
     launch = models.ForeignKey(Launch, on_delete=models.CASCADE)

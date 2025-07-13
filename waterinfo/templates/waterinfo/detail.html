@@ -5,7 +5,7 @@
     {% load static %}
 </head>
 <body>
-
+{% load imagekit %}
 {{ water }}<br>
 Located in {{ water.city }}, {{ water.state }}, {{ water.country }} ({{ water.county }} county)<br>
 {{ latitude.0 }}&deg; {{ latitude.1 }}'{{ latitude.2 }}", {{ longitude.0 }}&deg; {{ longitude.1 }}'{{ longitude.2 }}" 
@@ -17,6 +17,11 @@ Size: {{ water.acres }} acres ({{ water.hectares }} hectares)<br>
 {% if water.max_depth_feet %}
 Maximum depth: {{ water.max_depth_feet }} feet ({{ water.max_depth_meters }} meters)<br>
 {% endif %}
-
+<p></p>
+{% if pictures %}
+    {% for picture in pictures %}
+    <a href="{{ picture.original.url }}" target="_blank"><img src="{{ picture.thumbnail.url }}"/></a>
+    {% endfor %}
+{% endif %}
 </body>
 </html>

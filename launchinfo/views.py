@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
-from .models import Launch
+from .models import Launch, LaunchImage
 
 def index(request):
     latest_launch_list = Launch.objects.order_by("-date_updated")[:15]
@@ -10,4 +10,5 @@ def index(request):
 
 def launchdetail(request, launch_id):
     launch = get_object_or_404(Launch, pk=launch_id)
-    return render(request, "launchinfo/detail.html", {"launch": launch})
+    pictures = LaunchImage.objects.filter(launch = launch_id)
+    return render(request, "launchinfo/detail.html", {"launch": launch, "pictures": pictures})

@@ -1,7 +1,9 @@
 from django.db import models # type: ignore
 from django.utils import timezone # type: ignore
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFit
+import os
+import uuid
 
 from kayakutils.models import Country, State, County, City
 
@@ -58,5 +60,5 @@ class Water(models.Model):
     
 class WaterImage(models.Model):
     original = models.ImageField(upload_to=generate_unique_water_name)
-    thumbnail = ImageSpecField(source='original', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    thumbnail = ImageSpecField(source='original', processors=[ResizeToFit(200, 200)], format='JPEG', options={'quality': 60})
     water = models.ForeignKey(Water, on_delete=models.CASCADE)

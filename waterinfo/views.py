@@ -12,4 +12,5 @@ def detail(request, water_id):
     water = get_object_or_404(Water, pk=water_id)
     latitude = water.dms_latitude()
     longitude = water.dms_longitude()
-    return render(request, "waterinfo/detail.html", {"water": water, "latitude": latitude, "longitude": longitude})
+    pictures = WaterImage.objects.filter(water = water_id)
+    return render(request, "waterinfo/detail.html", {"water": water, "latitude": latitude, "longitude": longitude, "pictures": pictures})
