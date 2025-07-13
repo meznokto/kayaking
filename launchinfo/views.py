@@ -8,6 +8,6 @@ def index(request):
     context = {"latest_launch_list": latest_launch_list}
     return render(request, "launchinfo/index.html", context)
 
-def detail(request, launch_id):
+def launchdetail(request, launch_id):
     launch = get_object_or_404(Launch, pk=launch_id)
     return render(request, "launchinfo/detail.html", {"launch": launch})

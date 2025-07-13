@@ -16,8 +16,8 @@ class Launch(models.Model):
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     body_of_water = models.ForeignKey(Water, on_delete=models.SET_NULL, null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
 
     BathroomType = [
         (0, "None"),            # no bathrooms

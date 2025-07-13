@@ -27,7 +27,7 @@ class Water(models.Model):
     acres = models.FloatField(default=0)    # if we're given one of these we can calculate the other
     hectares = models.FloatField(default=0)
     max_depth_feet = models.PositiveSmallIntegerField(default=0) # we can calculate these, too
-    max_depth_meters = models.PositiveSmallIntegerField(default=0)
+    max_depth_meters = models.DecimalField(decimal_places=1, max_digits=10, default=0)
 
     def __str__(self):
         return self.name
