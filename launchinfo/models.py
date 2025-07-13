@@ -26,7 +26,7 @@ class Launch(models.Model):
         (3, "Nearby"),          # neaby bathroom (convenience store, campground, etc)
     ]
     bathroom_type = models.SmallIntegerField(choices=BathroomType, default=0)
-    bathrooms = models.DecimalField(max_digits=3, decimal_places=1, default=0) # number of bathrooms/stalls
+    bathrooms = models.SmallIntegerField(default=0) # number of bathrooms/stalls
     bathroom_desc = models.TextField(null=True, blank=True) # short description, optional
 
     RampType = [

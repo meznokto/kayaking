@@ -20,7 +20,7 @@ class County(models.Model):
     state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.state.name + " - " + self.name
+        return self.name
     
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -28,4 +28,4 @@ class City(models.Model):
     state = models.ForeignKey(State, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.name + ", " + self.state.name
+        return self.name

@@ -7,7 +7,16 @@
 <body>
 
 {{ water }}<br>
-{{ latitude.0 }}&deg; {{ latitude.1 }}'{{ latitude.2 }}", {{ longitude.0 }}&deg; {{ longitude.1 }}'{{ longitude.2 }}"
+Located in {{ water.city }}, {{ water.state }}, {{ water.country }} ({{ water.county }} county)<br>
+{{ latitude.0 }}&deg; {{ latitude.1 }}'{{ latitude.2 }}", {{ longitude.0 }}&deg; {{ longitude.1 }}'{{ longitude.2 }}" 
+(<a href="https://maps.google.com/?q={{ water.latitude }},{{ water.longitude }}&ll={{ water.latitude }},{{ water.longitude }}&z=14") target="_blank" rel="noopener noreferrer">Map</a>)<br>
+Type: {{ water.get_water_type_display }}<br>
+{% if water.acres %}
+Size: {{ water.acres }} acres ({{ water.hectares }} hectares)<br>
+{% endif %}
+{% if water.max_depth_feet %}
+Maximum depth: {{ water.max_depth_feet }} feet ({{ water.max_depth_meters }} meters)<br>
+{% endif %}
 
 </body>
 </html>
