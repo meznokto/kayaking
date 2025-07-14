@@ -10,7 +10,10 @@
 {{ launch }}, {{ launch.body_of_water }}
 <br>
 Updated: {{ launch.date_updated }}<br>
-Located in {{ launch.city }}, {{ launch.state }}, {{ launch.country}} ({{ launch.county }} County)<br>
+Located in {{ launch.city }}, {{ launch.state }} 
+{% if launch.country.abbr != 'US' %}
+, {{ launch.country.name }}
+{% endif %} ({{ launch.county }} County)<br>
 Lat/Lon: {{ launch.latitude }}, {{ launch.longitude }} 
 (<a href="https://www.google.com/maps/dir/?api=1&destination={{ launch.latitude }}%2C{{ launch.longitude }}" target="_blank" rel="noopener noreferrer">Directions</a>)
 <p></p>
