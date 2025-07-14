@@ -34,11 +34,6 @@ class LaunchImageSerializer(serializers.ModelSerializer):
         model = LaunchImage
         fields = ['id', 'original']
 
-class BathroomTypeSerializer(serializers.Serializer):
-    bathroom_display = serializers.CharField(source='get_bathroom_choices_display', read_only=True)
-    class Meta:
-        model = Launch
-        fields = ('id', 'bathroom_display')
 
 class LaunchSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -52,15 +47,15 @@ class LaunchSerializer(serializers.Serializer):
     body_of_water = WaterSerializer(read_only=True)
     latitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
-    #main_image = LaunchImageSerializer(read_only=True)
     main_image = LaunchImageSerializer(read_only=True)
-    #bathroom_type = BathroomTypeSerializer(read_only=True)
     bathroom_type = serializers.ChoiceField(choices=[
         (0, "None"),
         (1, "Outhouse"),
         (2, "Plumbed"),
         (3, "Nearby"),
     ], default=0)
+    bathroom_text = serializers.CharField(source='get_bathroom_type_display', read_only=True)
+    
     bathrooms = serializers.IntegerField(default=0)
     bathroom_desc = serializers.CharField(allow_blank=True, allow_null=True)
 
