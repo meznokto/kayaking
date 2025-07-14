@@ -30,13 +30,13 @@ class Launch(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     main_image = models.ForeignKey('launchinfo.LaunchImage', on_delete=models.SET_NULL, null=True, related_name="launch_main_image")
 
-    BathroomType = [
+    BATHROOM_CHOICES = [
         (0, "None"),            # no bathrooms
         (1, "Outhouse"),        # outhouse/pit
         (2, "Plumbed"),         # running water
         (3, "Nearby"),          # neaby bathroom (convenience store, campground, etc)
     ]
-    bathroom_type = models.SmallIntegerField(choices=BathroomType, default=0)
+    bathroom_type = models.SmallIntegerField(choices=BATHROOM_CHOICES, default=0)
     bathrooms = models.SmallIntegerField(default=0) # number of bathrooms/stalls
     bathroom_desc = models.TextField(null=True, blank=True) # short description, optional
 
@@ -66,3 +66,7 @@ class LaunchImage(models.Model):
     original = models.ImageField(upload_to=generate_unique_launch_name)
     thumbnail = ImageSpecField(source='original', processors=[ResizeToFit(200, 200)], format='JPEG', options={'quality': 60})
     launch = models.ForeignKey(Launch, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"Image {self.id} for Launch {self.launch.name}" if self.launch else f"Image {self.id}"
