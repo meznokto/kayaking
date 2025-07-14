@@ -1,1 +1,1 @@
-A django-based project to gather and present data useful for finding and visiting sites to go kayaking/canoeing/etc.
+A django-based api to manage data useful for finding and visiting sites to go kayaking/canoeing/etc.
