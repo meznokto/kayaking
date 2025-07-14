@@ -65,12 +65,15 @@ class LaunchSerializer(serializers.Serializer):
         (2, "Carry Down"),
         (3, "Gravel"),
     ], default=1)
+    ramp_text = serializers.CharField(source='get_ramp_type_display', read_only=True)
 
     parking_type = serializers.ChoiceField(choices=[
         (0, "None"),
         (1, "Gravel"),
         (2, "Paved"),
     ], default=1)
+    parking_text = serializers.CharField(source='get_parking_type_display', read_only=True)
+    
     pay_parking = serializers.BooleanField(default=False)
     pay_info = serializers.CharField(allow_blank=True, allow_null=True)
 
