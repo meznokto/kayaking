@@ -22,6 +22,7 @@ class Water(models.Model):
     date_updated = models.DateTimeField(default=timezone.now)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    main_image = models.ForeignKey('waterinfo.WaterImage', on_delete=models.SET_NULL, null=True, related_name="water_main_image")
 
     WaterType = [
         (0, "River"),

@@ -28,6 +28,7 @@ class Launch(models.Model):
     body_of_water = models.ForeignKey(Water, on_delete=models.SET_NULL, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    main_image = models.ForeignKey('launchinfo.LaunchImage', on_delete=models.SET_NULL, null=True, related_name="launch_main_image")
 
     BathroomType = [
         (0, "None"),            # no bathrooms

@@ -1,10 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Launch Info</title>
-    {% load static %}
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Launches{% endblock %}
+
+{% load imagekit %}
+
+{% block content %}
 
 <ul role="list">
     {% if latest_launch_list %}
@@ -14,6 +15,11 @@
         <li>
             <div>
             <p>
+                {% if launch.main_image %}
+                    <img src="{{ launch.main_image.thumbnail.url }}" alt="{{ launch.name }} thumbnail" class="thumbnail">
+                {% else %}
+                    <img src="{% static 'default_launch_thumbnail.png' %}" alt="Default thumbnail" class="thumbnail">
+                {% endif %}
                 <a href="{% url 'launchdetail' launch.id %}">{{ launch.name }}</a>
             </p>
             <p>
@@ -31,5 +37,4 @@
     {% endif %}
 </ul>
 
-</body>
-</html>
+{% endblock %}

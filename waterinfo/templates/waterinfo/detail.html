@@ -1,11 +1,12 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Water Info</title>
-    {% load static %}
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Water Info{% endblock %}
+
 {% load imagekit %}
+
+{% block content %}
+
 {{ water }}<br>
 Located in {{ water.city }}, {{ water.state }}, {{ water.country }} ({{ water.county }} county)<br>
 {{ latitude.0 }}&deg; {{ latitude.1 }}'{{ latitude.2 }}", {{ longitude.0 }}&deg; {{ longitude.1 }}'{{ longitude.2 }}" 
@@ -23,5 +24,5 @@ Maximum depth: {{ water.max_depth_feet }} feet ({{ water.max_depth_meters }} met
     <a href="{{ picture.original.url }}" target="_blank"><img src="{{ picture.thumbnail.url }}"/></a>
     {% endfor %}
 {% endif %}
-</body>
-</html>
+
+{% endblock %}

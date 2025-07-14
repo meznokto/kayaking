@@ -8,7 +8,7 @@ def index(request):
     context = {"latest_water_list": latest_water_list}
     return render(request, "waterinfo/index.html", context)
 
-def detail(request, water_id):
+def waterdetail(request, water_id):
     water = get_object_or_404(Water, pk=water_id)
     latitude = water.dms_latitude()
     longitude = water.dms_longitude()

@@ -1,13 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Kayak Info</title>
-    {% load static %}
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kayaking Info{% endblock %}
+
+{% load imagekit %}
+
+{% block content %}
 
 The home page!
 <p><a href="/launchinfo/">View Boat Launch Info</a></p>
 <p><a href="/waterinfo/">View Bodies of Water</a></p>
-</body>
-</html>
+
+{% endblock %}
