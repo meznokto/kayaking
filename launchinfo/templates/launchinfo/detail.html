@@ -1,11 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Launch Info</title>
-    {% load static %}
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Launch Info{% endblock %}
+
 {% load imagekit %}
+
+{% block content %}
+
 {{ launch }}, {{ launch.body_of_water }}
 <br>
 Updated: {{ launch.date_updated }}<br>
@@ -26,8 +26,10 @@ Bathrooms: {{ launch.bathrooms }} ({{ launch.get_bathroom_type_display }})<br>
 <p></p>
 {% if pictures %}
     {% for picture in pictures %}
-    <a href="{{ picture.original.url }}" target="_blank"><img src="{{ picture.thumbnail.url }}"/></a>
+    <div>
+    <a href="{{ picture.original.url }}" target="_blank"><img class="thumbnail" src="{{ picture.thumbnail.url }}"/></a>
+    </div>
     {% endfor %}
 {% endif %}
-</body>
-</html>
+
+{% endblock %}
