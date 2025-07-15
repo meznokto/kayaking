@@ -3,35 +3,49 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import APIException
 
 from .models import Launch, LaunchImage
 from .serializers import LaunchSerializer
 
+class LaunchNotFoundException(APIException):
+    status_code = 404
+    default_detail = 'Launch not found.'
+    default_code = 'launch_not_found'
 
 class ListLaunches(APIView):
     queryset = Launch.objects.all().order_by('-date_updated')
     serializer_class = LaunchSerializer
 
     def get(self, request):
-        # if a launch parameter was provided, show only results for that
+        # if a launch parameter was provided, show only results for that launch
+        # this allows for more efficient queries by only returning necessary fields
+        # e.g., ?launch=123
+        # if no launch is specified, return all launches
         if 'launch' in request.GET:
             launches = Launch.objects.filter(pk=request.GET['launch'])
+            if not launches.exists():
+                # if the launch does not exist, raise a 404 error
+                raise LaunchNotFoundException()
         else:
             launches = self.queryset.all()
 
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields
         # e.g., ?field=name&field=latitude&field=longitude
-        # if no field is specified, all fields will be returned
         if 'field' in request.GET:
             if request.GET['field'] == 'all':
+                # should we check and not allow all fields if
+                # no launch is specified?
                 fields = None  # return all fields
             else:
                 # if specific fields are requested, filter them
                 fields = request.GET.getlist('field')
-                fields.append('id')
+                fields.append('id') # always include the ID field
         else:
-            fields = ('id', 'name', 'city', 'state')
+            # if no fields are specified, return a default set
+            # this is useful for listing launches in a compact format
+            fields = ('id', 'name', 'city', 'state', 'country')
         serializer = LaunchSerializer(launches, many=True, fields=fields)
         return Response(serializer.data)
 
