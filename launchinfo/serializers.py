@@ -47,7 +47,6 @@ class LaunchSerializer(serializers.Serializer):
     latitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
     main_image = LaunchImageSerializer(read_only=True)
-    #thumbnail = ThumbnailSerializer(read_only=True)
     thumbnail = serializers.ReadOnlyField(source="main_image.thumbnail.url")
     bathroom_type = serializers.ChoiceField(choices=[
         (0, "None"),
@@ -79,6 +78,16 @@ class LaunchSerializer(serializers.Serializer):
     pay_info = serializers.CharField(allow_blank=True, allow_null=True)
 
     comment = serializers.CharField(allow_blank=True, allow_null=True)
+
+    def __init__(self, *args, **kwargs):
+        fields = kwargs.pop('fields', None)
+        super().__init__(*args, **kwargs)
+
+        if fields is not None:
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
 
     def create(self, validated_data):
         return Launch.objects.create(**validated_data)

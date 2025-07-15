@@ -13,8 +13,26 @@ class ListLaunches(APIView):
     serializer_class = LaunchSerializer
 
     def get(self, request):
-        launches = self.queryset.all()
-        serializer = self.serializer_class(launches, many=True)
+        # if a launch parameter was provided, show only results for that
+        if 'launch' in request.GET:
+            launches = Launch.objects.filter(pk=request.GET['launch'])
+        else:
+            launches = self.queryset.all()
+
+        # if a field parameter was provided, filter the fields
+        # this allows for more efficient queries by only returning necessary fields
+        # e.g., ?field=name&field=latitude&field=longitude
+        # if no field is specified, all fields will be returned
+        if 'field' in request.GET:
+            if request.GET['field'] == 'all':
+                fields = None  # return all fields
+            else:
+                # if specific fields are requested, filter them
+                fields = request.GET.getlist('field')
+                fields.append('id')
+        else:
+            fields = ('id', 'name', 'city', 'state')
+        serializer = LaunchSerializer(launches, many=True, fields=fields)
         return Response(serializer.data)
 
     def post(self, request):
