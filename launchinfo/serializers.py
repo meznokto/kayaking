@@ -34,7 +34,6 @@ class LaunchImageSerializer(serializers.ModelSerializer):
         model = LaunchImage
         fields = ['id', 'original']
 
-
 class LaunchSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=128)
@@ -48,6 +47,8 @@ class LaunchSerializer(serializers.Serializer):
     latitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
     main_image = LaunchImageSerializer(read_only=True)
+    #thumbnail = ThumbnailSerializer(read_only=True)
+    thumbnail = serializers.ReadOnlyField(source="main_image.thumbnail.url")
     bathroom_type = serializers.ChoiceField(choices=[
         (0, "None"),
         (1, "Outhouse"),
@@ -73,7 +74,7 @@ class LaunchSerializer(serializers.Serializer):
         (2, "Paved"),
     ], default=1)
     parking_text = serializers.CharField(source='get_parking_type_display', read_only=True)
-    
+
     pay_parking = serializers.BooleanField(default=False)
     pay_info = serializers.CharField(allow_blank=True, allow_null=True)
 
