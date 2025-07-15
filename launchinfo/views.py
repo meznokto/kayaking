@@ -13,7 +13,7 @@ class LaunchNotFoundException(APIException):
     default_detail = 'Launch not found.'
     default_code = 'launch_not_found'
 
-class ListLaunches(APIView):
+class LaunchesAPI(APIView):
     queryset = Launch.objects.all().order_by('-date_updated')
     serializer_class = LaunchSerializer
 

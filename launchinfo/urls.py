@@ -1,9 +1,7 @@
 from django.urls import path
 
-from .views import ListLaunches
+from .views import LaunchesAPI
 
 urlpatterns = [
-    path('', ListLaunches.as_view(), name='list_launches'),
-    #path("", views.index, name="index"),
-    #path("<int:launch_id>/", views.launchdetail, name="launchdetail"),
+    path('', LaunchesAPI.as_view(), name='launches_api'),
 ]
