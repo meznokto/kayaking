@@ -30,19 +30,23 @@ class LaunchesAPI(APIView):
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields
         # e.g., ?field=name&field=latitude&field=longitude
-        if 'field' in request.GET:
-            if request.GET['field'] == 'all':
-                # should we check and not allow all fields if
-                # no launch is specified?
+        if 'fields' in request.GET:
+            if request.GET['fields'] == 'all':
                 fields = None  # return all fields
-            else:
-                # if specific fields are requested, filter them
-                fields = request.GET.getlist('field')
-                fields.append('id') # always include the ID field
         else:
-            # if no fields are specified, return a default set
-            # this is useful for listing launches in a compact format
-            fields = ('id', 'name', 'city', 'state', 'country')
+            if 'field' in request.GET:
+                if request.GET['field'] == 'all':
+                    # should we check and not allow all fields if
+                    # no launch is specified?
+                    fields = None  # return all fields
+                else:
+                    # if specific fields are requested, filter them
+                    fields = request.GET.getlist('field')
+                    fields.append('id') # always include the ID field
+            else:
+                # if no fields are specified, return a default set
+                # this is useful for listing launches in a compact format
+                fields = ('id', 'name', 'city', 'state', 'country')
         serializer = LaunchSerializer(launches, many=True, fields=fields)
         return Response(serializer.data)
 
