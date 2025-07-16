@@ -18,11 +18,11 @@ class TripAPI(APIView):
 
     def get(self, request):
         if 'trip' in request.GET:
-            trips = Trip.objects.filter(id=request.GET['trip'])
+            trips = Trip.objects.filter(id=request.GET['trip'], is_private=False)
             if not trips.exists():
                 raise TripNotFoundException()
         else:
-            trips = self.queryset.all()
+            trips = self.queryset.all().filter(is_private=False)
             
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':
