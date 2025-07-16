@@ -1,14 +1,12 @@
 from rest_framework import serializers
 
-from waterinfo.models import Water
-from kayakutils.models import Country, State, County, City
-from launchinfo.models import Launch, LaunchImage
+from waterinfo.models import Water, WaterImage
 
 from launchinfo.serializers import CitySerializer, StateSerializer, CountySerializer, CountrySerializer
 
 class WaterImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LaunchImage
+        model = WaterImage
         fields = ['id', 'original']
 
 class WaterSerializer(serializers.Serializer):
@@ -41,4 +39,13 @@ class WaterSerializer(serializers.Serializer):
             existing = set(self.fields.keys())
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
+
+    def create(self, validated_data):
+        return Water.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
     
