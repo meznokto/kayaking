@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
-from .models import Launch, LaunchImage
+from .models import Launch
 from .serializers import LaunchSerializer
 
 class LaunchNotFoundException(APIException):
