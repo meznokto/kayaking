@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('launchinfo/', include("launchinfo.urls")),
     path('waterinfo/', include("waterinfo.urls")),
+    path('tripinfo/', include("tripinfo.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
