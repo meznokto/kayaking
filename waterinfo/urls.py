@@ -1,8 +1,7 @@
 from django.urls import path
 
-from . import views
+from .views import WaterAPI
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("<int:water_id>/", views.waterdetail, name="waterdetail"),
+    path('', WaterAPI.as_view(), name='water_api'),
 ]
