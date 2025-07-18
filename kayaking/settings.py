@@ -114,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "users.KayakUser"
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTRICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }

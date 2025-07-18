@@ -2,7 +2,7 @@ from rest_framework import serializers # type: ignore
 
 from tripinfo.models import Trip, TripImage
 from waterinfo.serializers import WaterImageSerializer
-from launchinfo.serializers import WaterSerializer, LaunchSerializer
+from launchinfo.serializers import WaterSerializer, TripLaunchSerializer
 from users.models import KayakUser
 
 class TripImageSerializer(serializers.ModelSerializer):
@@ -16,13 +16,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'display_name']
 
 class TripSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
     #is_private = models.BooleanField(default=False)
     start_time = serializers.DateTimeField(read_only=True)
     end_time = serializers.DateTimeField(read_only=True)
     body_of_water = WaterSerializer(read_only=True)
-    start_launch = LaunchSerializer(read_only=True)
-    end_launch = LaunchSerializer(read_only=True)
+    start_launch = TripLaunchSerializer(read_only=True)
+    end_launch = TripLaunchSerializer(read_only=True)
     images = TripImageSerializer(many=True, read_only=True)
     notes = serializers.CharField(default="", allow_blank=True, required=False)
 

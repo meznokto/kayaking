@@ -2,6 +2,9 @@ from rest_framework.views import APIView # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework.exceptions import APIException # type: ignore
 from rest_framework import status # type: ignore
+from rest_framework.permissions import IsAuthenticated # type: ignore
+from rest_framework_simplejwt.authentication import JWTAuthentication # type: ignore
+from rest_framework.permissions import AllowAny # type: ignore
 from django.shortcuts import get_object_or_404
 
 from .models import Trip
@@ -13,17 +16,33 @@ class TripNotFoundException(APIException):
     default_code = 'trip_not_found'
 
 class TripAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]  # Allow any user to access this API
+
+    # This queryset is used to fetch all trips, ordered by start time.
+    # It can be overridden in the get method if specific filtering is needed.
+    # Note: This queryset does not filter by user, so it may include private trips.
+    # Filtering for private trips is handled in the get method.
     queryset = Trip.objects.all().order_by('-start_time')
     serializer_class = TripSerializer
 
     def get(self, request):
         if 'trip' in request.GET:
-            trips = Trip.objects.filter(id=request.GET['trip'], is_private=False)
+            trips = Trip.objects.filter(id=request.GET['trip']) 
+            # TODO: show private trips if trip.user=authenticated user
             if not trips.exists():
                 raise TripNotFoundException()
         else:
-            trips = self.queryset.all().filter(is_private=False)
+            trips = self.queryset.all()
+            # TODO: show private trips if trip.user=authenticated user
             
+        if request.user.is_authenticated:
+            for trip in trips:
+                if trip.is_private and trip.user != request.user:
+                    trips = trips.exclude(id=trip.id)
+        else:
+            trips = trips.filter(is_private=False)
+
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':
                 fields = None

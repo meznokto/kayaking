@@ -35,6 +35,40 @@ class KayakUser(AbstractBaseUser, PermissionsMixin):
     signup_date = models.DateTimeField(auto_now_add=True)
     birthday = models.DateField(blank=True, null=True)
     avatar = ProcessedImageField(upload_to=generate_unique_avatar_name, processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60}, default="noone.jpg")
+    last_login = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Kayak User"
+        verbose_name_plural = "Kayak Users"
+        ordering = ['display_name']
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+    def get_short_name(self):
+        return self.first_name or self.display_name
+
+    @property
+    def is_authenticated(self):
+        return True  # Always returns True for authenticated users
+
+    @property
+    def is_anonymous(self):
+        return False  # Always returns False for authenticated users
+
+    @property
+    def name(self):
+        return self.display_name
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        return None
+
+    @property
+    def profile_url(self):
+        return f"/users/{self.id}/"
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

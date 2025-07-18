@@ -12,7 +12,7 @@ class CitySerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'abbr']
 
 class CountySerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +22,7 @@ class CountySerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'abbr']
 
 class WaterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -114,3 +114,13 @@ class LaunchSerializer(serializers.Serializer):
 
         instance.save()
         return instance
+    
+class TripLaunchSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=128)
+    latitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
+    longitude = serializers.DecimalField(max_digits=9, decimal_places=6, default=0)
+    city = CitySerializer(read_only=True)
+    county = CountySerializer(read_only=True)
+    state = StateSerializer(read_only=True)
+    country = CountrySerializer(read_only=True)
