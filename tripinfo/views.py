@@ -40,8 +40,12 @@ class TripAPI(APIView):
             for trip in trips:
                 if trip.is_private and trip.user != request.user:
                     trips = trips.exclude(id=trip.id)
+            if not trips: # If no trips are left after filtering, return a 404
+                raise TripNotFoundException()
         else:
             trips = trips.filter(is_private=False)
+            if not trips: # If no trips are left after filtering, return a 404
+                raise TripNotFoundException()
 
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':
