@@ -30,12 +30,12 @@ from . import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('admin/', admin.site.urls),
-    path('launchinfo/', include("launchinfo.urls")),
-    path('waterinfo/', include("waterinfo.urls")),
-    path('tripinfo/', include("tripinfo.urls")),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/launchinfo/', include("launchinfo.urls")),
+    path('api/waterinfo/', include("waterinfo.urls")),
+    path('api/tripinfo/', include("tripinfo.urls")),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

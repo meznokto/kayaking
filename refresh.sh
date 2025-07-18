@@ -1,6 +1,6 @@
 #!/bin/bash
 
-result=$(curl -X POST -H "Content-Type: application/json" -d "{\"refresh\": \"$refresh\"}" http://localhost:8000/token/refresh/ 2>/dev/null)
+result=$(curl -X POST -H "Content-Type: application/json" -d "{\"refresh\": \"$refresh\"}" http://localhost:8000/api/token/refresh/ 2>/dev/null)
 
 access=$(jq -r '.access' <<<"$result")
 
