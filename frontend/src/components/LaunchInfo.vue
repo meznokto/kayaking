@@ -5,7 +5,7 @@
 		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
-				<li v-for="launch in launchInfo" :key=launch.id class="list-group-item"><a :href="launch.id">{{launch.name}}</a></li>
+				<li v-for="launch in launchInfo" :key=launch.id class="list-group-item"><a :href="'/api/launchinfo/?launch=' + launch.id">{{launch.name}}</a></li>
 			</ul>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 	async function loadMoreLaunches () {
 		fetchingLaunches.value = true
 		const launchInfoResponse = await axios.get<launch[]>('http://localhost:8000/api/launchinfo/')
-		launchInfo.value.pursh(...(launchInfoResponse.data || []))
+		launchInfo.value.push(...(launchInfoResponse.data || []))
 
 		fetchingLaunches.value = false
 	}
