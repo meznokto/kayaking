@@ -5,7 +5,7 @@
 		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
-				<li v-for="launch in launchInfo" :key=launch.id class="list-group-item"><a :href="'/api/launchinfo/?launch=' + launch.id">{{launch.name}}</a></li>
+				<li v-for="launch in launchInfo" :key=launch.id class="list-group-item"><a :href="'#/launchdetail/?launch=' + launch.id">{{launch.name}}</a></li>
 			</ul>
 		</div>
 	</div>
