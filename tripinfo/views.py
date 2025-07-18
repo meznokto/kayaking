@@ -29,24 +29,24 @@ class TripAPI(APIView):
     def get(self, request):
         if 'trip' in request.GET:
             trips = Trip.objects.filter(id=request.GET['trip']) 
-            # TODO: show private trips if trip.user=authenticated user
             if not trips.exists():
                 raise TripNotFoundException()
         else:
             trips = self.queryset.all()
-            # TODO: show private trips if trip.user=authenticated user
             
         if request.user.is_authenticated:
             for trip in trips:
                 if trip.is_private and trip.user != request.user:
+                    # If the trip is private and does not belong to the user, exclude it
                     trips = trips.exclude(id=trip.id)
-            if not trips: # If no trips are left after filtering, return a 404
-                raise TripNotFoundException()
         else:
+            # If the user is not authenticated, filter out private trips
+            # This ensures that only public trips are returned to unauthenticated users
             trips = trips.filter(is_private=False)
-            if not trips: # If no trips are left after filtering, return a 404
-                raise TripNotFoundException()
 
+        if not trips: # If no trips are left after filtering, return a 404
+                raise TripNotFoundException()
+        
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':
                 fields = None
