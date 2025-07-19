@@ -21,10 +21,10 @@
 	interface launch {
 		id: number;
 		name: string;
-		city: string;
-		state: string;
-		country: string;
-		}
+		city: { name: string };
+		state: { abbr: string };
+		country: { abbr: string };
+	}
 	const launchInfo = ref([] as launch[])
 	const fetchingLaunches = ref(false)
 	async function loadMoreLaunches () {
