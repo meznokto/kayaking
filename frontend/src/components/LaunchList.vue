@@ -10,8 +10,26 @@
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="launch in launchList" :key=launch.id class="list-group-item">
-					<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
-					{{launch.name}} - {{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}</router-link>
+					<div class="container-flued">
+						<div class="row">
+							<div class="col-sm-1">
+								<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
+								<div v-if="launch.thumbnail">
+									<img v-bind:src="'http://localhost:8000' + launch.thumbnail" alt="Launch Image" class="img-fluid">
+								</div>
+								<div v-else>
+									<img src="http://localhost:8000/static/default_launch_thumbnail.png" alt="Default Launch Image" class="img-fluid">
+								</div>
+								</router-link>
+							</div>
+							<div class="col-sm-10">
+								<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
+									{{launch.name}}
+								</router-link><br>
+								{{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}
+							</div>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -29,6 +47,7 @@
 		city: { name: string };
 		state: { abbr: string };
 		country: { abbr: string };
+		thumbnail: string;
 	}
 
 	const launchList = ref([] as launch[])

@@ -49,7 +49,7 @@ class LaunchesAPI(APIView):
             else:
                 # if no fields are specified, return a default set
                 # this is useful for listing launches in a compact format
-                fields = ('id', 'name', 'city', 'state', 'country')
+                fields = ('id', 'name', 'city', 'state', 'country', 'thumbnail')
         serializer = LaunchSerializer(launches, many=True, fields=fields)
         return Response(serializer.data)
 
