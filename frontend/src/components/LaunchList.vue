@@ -26,6 +26,9 @@
 								<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
 									{{launch.name}}
 								</router-link><br>
+								<router-link :to="{name: 'WaterDetail', params: { waterid: launch.body_of_water.id }}">
+								{{ launch.body_of_water.name}}
+								</router-link><br>
 								{{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}
 							</div>
 						</div>
@@ -47,6 +50,7 @@
 		city: { name: string };
 		state: { abbr: string };
 		country: { abbr: string };
+		body_of_water: { id: number; name: string };
 		thumbnail: string;
 	}
 

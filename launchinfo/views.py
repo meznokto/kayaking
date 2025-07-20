@@ -17,17 +17,25 @@ class LaunchesAPI(APIView):
     serializer_class = LaunchSerializer
 
     def get(self, request):
-        # if a launch parameter was provided, show only results for that launch
-        # this allows for more efficient queries by only returning necessary fields
-        # e.g., ?launch=123
-        # if no launch is specified, return all launches
-        if 'launch' in request.GET:
-            launches = Launch.objects.filter(pk=request.GET['launch'])
+        # if a waterid was provided, show only launches on that body of water
+        if 'waterid' in request.GET:
+            waterid = request.GET['waterid']
+            launches = self.queryset.filter(body_of_water__id=waterid)
             if not launches.exists():
-                # if the launch does not exist, raise a 404 error
+                # if no launches are found for the given water body, raise a 404 error
                 raise LaunchNotFoundException()
         else:
-            launches = self.queryset.all()
+            # if a launch parameter was provided, show only results for that launch
+            # this allows for more efficient queries by only returning necessary fields
+            # e.g., ?launch=123
+            # if no launch is specified, return all launches
+            if 'launch' in request.GET:
+                launches = Launch.objects.filter(pk=request.GET['launch'])
+                if not launches.exists():
+                    # if the launch does not exist, raise a 404 error
+                    raise LaunchNotFoundException()
+            else:
+                launches = self.queryset.all()
 
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields
@@ -49,7 +57,7 @@ class LaunchesAPI(APIView):
             else:
                 # if no fields are specified, return a default set
                 # this is useful for listing launches in a compact format
-                fields = ('id', 'name', 'city', 'state', 'country', 'thumbnail')
+                fields = ('id', 'name', 'city', 'state', 'country', 'body_of_water', 'thumbnail')
         serializer = LaunchSerializer(launches, many=True, fields=fields)
         return Response(serializer.data)
 
