@@ -1,5 +1,9 @@
 <template>
-	<div class="row">
+<div class="app">
+	<div v-if="fetchingLaunches">
+		<p>Loading...</p>
+	</div>
+	<div v-else class="row">
 		<div class="col-md-12">
 			<h3>Boat Launches</h3>
 		</div>
@@ -12,6 +16,7 @@
 			</ul>
 		</div>
 	</div>
+</div>
 </template>
 
 <script setup lang="ts">
