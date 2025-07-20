@@ -1,6 +1,9 @@
 <template>
 <div class="app">
-	<div class="row">
+    <div v-if="fetchingTrip">
+        <p>Loading...</p>
+    </div>
+	<div v-else class="row">
 		<div class="col-md-12">
 			<h3>Trip Info</h3>
 		</div>
