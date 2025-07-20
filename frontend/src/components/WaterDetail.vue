@@ -10,7 +10,7 @@
             {{ myWater.city.name }}, {{ myWater.state.abbr }}, {{ myWater.country.abbr }} ({{ myWater.county.name }} County)<br>
 		</div>
 	</div>
-    Back to <router-link :to="{name: 'WaterList'}">Trip List</router-link>
+    Back to <router-link :to="{name: 'WaterList'}">Water List</router-link>
 </div>
 </template>
 
@@ -43,7 +43,7 @@
 
 	async function fetchWaterDetail() {
         fetchingWater.value = true
-		const waterInfoResponse = await axios.get<trip[]>("http://localhost:8000/api/waterinfo/?water=1&fields=all")
+		const waterInfoResponse = await axios.get<water[]>("http://localhost:8000/api/waterinfo/?water=1&fields=all")
         
         if (waterInfoResponse.data.length > 0) {
             myWater.value = waterInfoResponse.data[0]

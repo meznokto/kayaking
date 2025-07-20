@@ -5,7 +5,7 @@
 			<h3>Boat Launch Info</h3>
 		</div>
 		<div class="col-md-12">
-            {{ myLaunch.name }} on <a :href="'#/waterdetail/' + myLaunch.body_of_water.id">{{ myLaunch.body_of_water.name }}</a><br>
+            {{ myLaunch.name }} on <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
             {{ myLaunch.city.name }}, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
             {{ myLaunch.county.name }} County<br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
