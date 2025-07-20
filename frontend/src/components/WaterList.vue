@@ -6,8 +6,8 @@
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="water in waterList" :key=water.id class="list-group-item">
-					<a :href="'#/waterdetail/?water=' + water.id">
-					{{water.name}} - {{water.city.name}}, {{water.state.abbr}}, {{water.country.abbr}}</a>
+					<router-link :to="{name: 'WaterDetail', params: { waterid: water.id }}">
+					{{water.name}} - {{water.city.name}}, {{water.state.abbr}}, {{water.country.abbr}}</router-link>
 				</li>
 			</ul>
 		</div>

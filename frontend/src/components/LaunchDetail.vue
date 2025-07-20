@@ -12,6 +12,7 @@
             <a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original"><img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid"></a><br>
 		</div>
 	</div>
+    Back to <router-link :to="{name: 'LaunchList'}">Launch List</router-link>
 </div>
 </template>
 

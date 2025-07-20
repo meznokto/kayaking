@@ -5,6 +5,8 @@ import launchList from './components/LaunchList.vue'
 import WaterList from './components/WaterList.vue'
 import TripList from './components/TripList.vue'
 import LaunchDetail from './components/LaunchDetail.vue'
+import TripDetail from './components/TripDetail.vue'
+import WaterDetail from './components/WaterDetail.vue'
 
 const routes = [
   { path: '/', name: "Home", component: HomePage },
@@ -12,6 +14,8 @@ const routes = [
   { path: '/waterlist', name: "WaterList", component: WaterList },
   { path: '/triplist', name: "TripList", component: TripList },
   { path: '/launchdetail/:launchid', name: "LaunchDetail", component: LaunchDetail },
+  { path: '/tripdetail/:tripid', name: "TripDetail", component: TripDetail },
+  { path: '/waterdetail/:waterid', name: "WaterDetail", component: WaterDetail },
 ]
 const router = createRouter({
   history: createMemoryHistory(),

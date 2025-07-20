@@ -6,8 +6,8 @@
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="trip in tripList" :key=trip.id class="list-group-item">
-					<a :href="'#/tripdetail/?trip=' + trip.id">
-					{{trip.body_of_water.name}} - {{trip.start_time}}</a>
+					<router-link :to="{name: 'TripDetail', params: { tripid: trip.id }}">
+					{{trip.body_of_water.name}} - {{trip.start_time}}</router-link>
 				</li>
 			</ul>
 		</div>
