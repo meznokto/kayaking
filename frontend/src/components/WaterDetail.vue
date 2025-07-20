@@ -11,6 +11,7 @@
             {{ myWater.name }} ({{ myWater.water_type_text }})<br>
             {{ myWater.latitude }}, {{ myWater.longitude }}<br>
             {{ myWater.city.name }}, {{ myWater.state.abbr }}, {{ myWater.country.abbr }} ({{ myWater.county.name }} County)<br>
+            <a :href="'https://maps.google.com/?q=' + myWater.latitude + ',' + myWater.longitude + '&ll=' + myWater.latitude + ',' + myWater.longitude + '&z=14'" target="_blank">View on Google Maps</a><br>
 		</div>
 	</div>
     <div v-if="launchList.length > 0">

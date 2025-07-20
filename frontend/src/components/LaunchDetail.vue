@@ -12,6 +12,7 @@
             {{ myLaunch.city.name }}, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
             {{ myLaunch.county.name }} County<br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
+            <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
             <div v-if="myLaunch.main_image !== null">
                 <a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original">
                     <img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid">
