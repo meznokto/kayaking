@@ -8,9 +8,9 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item :to="'LaunchList'">Boat Launches</b-nav-item>
-            <b-nav-item :to="'WaterList'">Bodies of Water</b-nav-item>
-            <b-nav-item :to="'TripList'">Trips</b-nav-item>
+            <b-nav-item :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
+            <b-nav-item :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
+            <b-nav-item :to="{name: 'TripList'}">Trips</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
