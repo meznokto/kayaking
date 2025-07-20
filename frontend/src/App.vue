@@ -1,39 +1,23 @@
 <script setup>
-import { ref, computed } from 'vue'
-import HomePage from './components/HomePage.vue'
-import launchInfo from './components/LaunchInfo.vue'
-
-const routes = {
-  '/': HomePage,
-  '/launchlist': launchInfo,
-}
-
-const currentPath = ref(window.location.hash)
-
-window.addEventListener('hashchange', () => {
-  currentPath.value = window.location.hash
-})
-
-const currentView = computed(() => {
-  return routes[currentPath.value.slice(1) || '/'] || NotFound
-})
 </script>
 
 <template>
   <div id="navbar">
       <b-navbar toggleable="lg">
-        <b-navbar-brand href="#/">Kayak Info</b-navbar-brand>
+        <b-navbar-brand to="/">Kayak Info</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#/">Home</b-nav-item>
-            <b-nav-item href="#/launchlist">Boat Launches</b-nav-item>
-            <b-nav-item href="#/waterlist">Bodies of Water</b-nav-item>
-            <b-nav-item href="#/triplist">Trips</b-nav-item>
+            <b-nav-item :to="'LaunchList'">Boat Launches</b-nav-item>
+            <b-nav-item :to="'WaterList'">Bodies of Water</b-nav-item>
+            <b-nav-item :to="'TripList'">Trips</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     <component :is="currentView"></component>
+  </div>
+  <div id="app">
+  <router-view />
   </div>
 </template>
 

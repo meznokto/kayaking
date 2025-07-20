@@ -1,13 +1,13 @@
 <template>
 	<div class="row">
 		<div class="col-md-12">
-			<h3>Launches</h3>
+			<h3>Boat Launches</h3>
 		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
-				<li v-for="launch in launchInfo" :key=launch.id class="list-group-item">
-					<a :href="'#/launchdetail/?launch=' + launch.id">
-					{{launch.name}} - {{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}</a>
+				<li v-for="launch in launchList" :key=launch.id class="list-group-item">
+					<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
+					{{launch.name}} - {{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}</router-link>
 				</li>
 			</ul>
 		</div>
@@ -25,19 +25,21 @@
 		state: { abbr: string };
 		country: { abbr: string };
 	}
-	const launchInfo = ref([] as launch[])
+
+	const launchList = ref([] as launch[])
 	const fetchingLaunches = ref(false)
+
 	async function loadMoreLaunches () {
 		fetchingLaunches.value = true
 		const launchInfoResponse = await axios.get<launch[]>('http://localhost:8000/api/launchinfo/')
-		launchInfo.value.push(...(launchInfoResponse.data || []))
 
+		launchList.value.push(...(launchInfoResponse.data || []))
 		fetchingLaunches.value = false
 	}
 
 	async function fetchInitialLaunches() {
 		const launchInfoResponse = await axios.get<launch[]>('http://localhost:8000/api/launchinfo/')
-		launchInfo.value = launchInfoResponse.data
+		launchList.value = launchInfoResponse.data
 	}
 
 	onMounted(async () => {
