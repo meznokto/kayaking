@@ -9,7 +9,7 @@
             {{ myLaunch.city.name }}, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
             {{ myLaunch.county.name }} County<br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
-            <a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original"><img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid"></a><br>
+            <div v-if="myLaunch.main_image !== null"><a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original"><img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid"></a><br></div>
 		</div>
 	</div>
     Back to <router-link :to="{name: 'LaunchList'}">Launch List</router-link>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+    import { useRoute } from 'vue-router';
 
 	interface launch {
 		id: number;
@@ -48,10 +49,12 @@
         main_image: { original: '' }
     })
 	const fetchingLaunch = ref(false)
+    const route = useRoute()
 
 	async function fetchLaunchDetail() {
         fetchingLaunch.value = true
-		const launchInfoResponse = await axios.get<launch[]>("http://localhost:8000/api/launchinfo/?launch=2&fields=all")
+        const id = route.params.launchid
+		const launchInfoResponse = await axios.get<launch[]>("http://localhost:8000/api/launchinfo/?launch=" + id + "&fields=all")
         
         if (launchInfoResponse.data.length > 0) {
             myLaunch.value = launchInfoResponse.data[0]
