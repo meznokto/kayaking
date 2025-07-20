@@ -11,13 +11,18 @@
             {{ myTrip.notes }}
 		</div>
 	</div>
-    Back to <router-link :to="{name: 'TripList'}">Trip List</router-link>
+    <button @click="goBack" class="btn btn-secondary mt-3">Go Back</button>
 </div>
 </template>
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+    import { useRoute, useRouter } from 'vue-router';
+
+    const goBack = () => {
+        router.go(-1)
+    }
 
 	interface trip {
 		id: number;
@@ -39,6 +44,8 @@
         notes: ''
     })
 	const fetchingTrip = ref(false)
+    const route = useRoute()
+    const router = useRouter()
 
 	async function fetchTripDetail() {
         fetchingTrip.value = true

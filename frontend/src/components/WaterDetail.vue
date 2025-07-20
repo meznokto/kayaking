@@ -10,13 +10,18 @@
             {{ myWater.city.name }}, {{ myWater.state.abbr }}, {{ myWater.country.abbr }} ({{ myWater.county.name }} County)<br>
 		</div>
 	</div>
-    Back to <router-link :to="{name: 'WaterList'}">Water List</router-link>
+    <button @click="goBack" class="btn btn-secondary mt-3">Go Back</button>
 </div>
 </template>
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+    import { useRoute, useRouter } from 'vue-router';
+
+    const goBack = () => {
+        router.go(-1)
+    }
 
 	interface water {
 		name: string;
@@ -40,6 +45,8 @@
         county: { name: '' }
     })
 	const fetchingWater = ref(false)
+    const route = useRoute()
+    const router = useRouter()
 
 	async function fetchWaterDetail() {
         fetchingWater.value = true

@@ -9,17 +9,25 @@
             {{ myLaunch.city.name }}, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
             {{ myLaunch.county.name }} County<br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
-            <div v-if="myLaunch.main_image !== null"><a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original"><img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid"></a><br></div>
+            <div v-if="myLaunch.main_image !== null">
+                <a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original">
+                    <img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid">
+                </a><br>
+            </div>
 		</div>
 	</div>
-    Back to <router-link :to="{name: 'LaunchList'}">Launch List</router-link>
+    <button @click="goBack" class="btn btn-secondary mt-3">Go Back</button>
 </div>
 </template>
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
-    import { useRoute } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
+
+    const goBack = () => {
+        router.go(-1)
+    }
 
 	interface launch {
 		id: number;
@@ -46,10 +54,11 @@
         latitude: 0,
         longitude: 0,
         thumbnail: '',
-        main_image: { original: '' }
+        main_image: null
     })
 	const fetchingLaunch = ref(false)
     const route = useRoute()
+    const router = useRouter()
 
 	async function fetchLaunchDetail() {
         fetchingLaunch.value = true
