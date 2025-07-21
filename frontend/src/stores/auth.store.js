@@ -35,19 +35,24 @@ export const useAuthStore = defineStore('auth', {
         },
         async refreshToken() {
             console.log("Refreshing token...");
-            this.data = await fetchWrapper.post(`${baseUrl}refresh/`, {}, { credentials: 'include' });
+            //this.data = await fetchWrapper.post(`${baseUrl}refresh/`, {}, { credentials: 'include' });
+            this.data = await fetchWrapper.post(`${baseUrl}refresh/`, { refresh: this.refreshtoken });
+            if (!this.data || !this.data.access) {
+                console.error("Failed to refresh token");
+                this.logout();
+                return;
+            }
+            console.log("Token refreshed successfully");
+            // update the access and refresh tokens
             this.accesstoken = this.data.access;
-            this.refreshtoken = this.data.refresh;
             console.log("Refreshed Access Token:", this.accesstoken);
-            console.log("Refreshed Refresh Token:", this.refreshtoken);
             // reset the timer to refresh the token before it expires
             this.startRefreshTokenTimer();
         },
         startRefreshTokenTimer() {
-            //const expires = new Date();
-            const timeout = Date.now() + (60 * 1000);
-            console.log("Setting refresh token timeout for:", timeout);
-            this.refreshTokenTimeout = setTimeout(this.refreshToken, timeout);
+            const timeout = Date.now() + (60 * 15); // 15 minutes
+            console.log("Setting refresh token timeout for:", (timeout - Date.now()) * 1000);
+            this.refreshTokenTimeout = setTimeout(this.refreshToken, (timeout - Date.now()) * 1000);
         },    
         stopRefreshTokenTimer() {
             clearTimeout(this.refreshTokenTimeout);
