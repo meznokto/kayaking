@@ -15,7 +15,6 @@ export const useUsersStore = defineStore('users', {
             fetchWrapper.get(baseUrl)
                 .then(users => this.users = users)
                 .catch(error => this.users = { error })
-            console.log("Users fetched:", this.users);
         }
     }
 });

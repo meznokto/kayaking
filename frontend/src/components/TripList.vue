@@ -22,6 +22,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+	import { fetchWrapper } from '@/helpers';
 
 	interface trip {
 		id: number;
@@ -34,15 +35,21 @@
 
 	async function loadMoreTrips () {
 		fetchingTrips.value = true
-		const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		//const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		const tripInfoResponse = await fetchWrapper.get<trip[]>('http://localhost:8000/api/tripinfo/')
 
 		tripList.value.push(...(tripInfoResponse.data || []))
 		fetchingTrips.value = false
 	}
 
 	async function fetchInitialTrips() {
-		const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
-		tripList.value = tripInfoResponse.data
+		//const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		const tripInfoResponse = await fetchWrapper.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		if (!tripInfoResponse) {
+			console.error('Failed to fetch trips')
+			return
+		}
+		tripList.value = tripInfoResponse
 	}
 
 	onMounted(async () => {

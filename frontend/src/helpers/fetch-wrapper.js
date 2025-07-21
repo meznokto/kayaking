@@ -29,10 +29,9 @@ function request(method) {
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const user = useAuthStore();
-    console.log(user);
     const isLoggedIn = !!user?.accesstoken;
-    //const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
-    if (isLoggedIn) { // && isApiUrl) {
+    const isApiUrl = url.startsWith('http://localhost:8000');
+    if (isLoggedIn && isApiUrl) {
         console.log(`Using auth header for URL: ${url}`);
         return { Authorization: `Bearer ${user.accesstoken}` };
     } else {

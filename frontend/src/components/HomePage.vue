@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <h1>Kayak Info</h1>
+    <div v-if="authStore.accesstoken">
         <h1>Hi!</h1>
         <p>You're logged in with Vue 3 + JWT with Refresh Tokens!!</p>
         <h3>Users from secure api end point:</h3>
@@ -9,12 +10,16 @@
         </ul>
         <div v-if="users.loading" class="spinner-border spinner-border-sm"></div>
         <div v-if="users.error" class="text-danger">Error loading users: {{users.error}}</div>
+      </div>
+    <div v-else>
+      <p>Please log in to access the secure features.</p>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
-
+import { RouterLink, RouterView } from 'vue-router';
 import { useAuthStore, useUsersStore } from '@/stores';
 
 const authStore = useAuthStore();

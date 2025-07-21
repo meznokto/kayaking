@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 
 import { fetchWrapper } from '@/helpers';
 
+import router from '../routes'
+
 const baseUrl = `http://localhost:8000/api/token/`;
 
 export const useAuthStore = defineStore('auth', {
@@ -24,9 +26,11 @@ export const useAuthStore = defineStore('auth', {
             this.startRefreshTokenTimer();
         },
         logout() {
-            fetchWrapper.post(`${baseUrl}revoke-token/`, {}, { credentials: 'include' });
+            console.log("Logging out...");
+            //fetchWrapper.post(`${baseUrl}revoke-token/`, {}, { credentials: 'include' });
             this.stopRefreshTokenTimer();
-            this.data = null;
+            this.accesstoken = null;
+            this.refreshtoken = null;
             router.push('/login');
         },
         async refreshToken() {
