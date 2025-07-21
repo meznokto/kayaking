@@ -7,9 +7,11 @@ import TripList from './components/TripList.vue'
 import LaunchDetail from './components/LaunchDetail.vue'
 import TripDetail from './components/TripDetail.vue'
 import WaterDetail from './components/WaterDetail.vue'
+import Login from './components/Login.vue'
 
 const routes = [
   { path: '/', name: "Home", component: HomePage },
+  { path: '/login', name: "Login", component: Login },
   { path: '/launchlist', name: "LaunchList", component: launchList },
   { path: '/waterlist', name: "WaterList", component: WaterList },
   { path: '/triplist', name: "TripList", component: TripList },

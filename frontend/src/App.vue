@@ -1,4 +1,9 @@
 <script setup>
+import { RouterLink, RouterView } from 'vue-router';
+
+import { useAuthStore } from '@/stores';
+
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -11,9 +16,15 @@
             <b-nav-item :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
             <b-nav-item :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
             <b-nav-item :to="{name: 'TripList'}">Trips</b-nav-item>
+            <b-nav-item :to="{name: 'Login'}">Login</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
+      <nav v-show="authStore.user" class="navbar navbar-expand navbar-dark bg-dark px-3">
+            <div class="navbar-nav">
+                <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
+            </div>
+        </nav>
     <component :is="currentView"></component>
   </div>
   <div id="app">
