@@ -22,6 +22,7 @@
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
+    import { fetchWrapper } from '@/helpers';
 
     const goBack = () => {
         router.go(-1)
@@ -52,12 +53,14 @@
 
 	async function fetchTripDetail() {
         fetchingTrip.value = true
-		const tripInfoResponse = await axios.get<trip[]>("http://localhost:8000/api/tripinfo/?trip=1&fields=all")
-        
-        if (tripInfoResponse.data.length > 0) {
-            myTrip.value = tripInfoResponse.data[0]
-        } else {
+        const id = route.params.tripid
+		//const tripInfoResponse = await axios.get<trip[]>("http://localhost:8000/api/tripinfo/?trip=" + id + "&fields=all")
+        const tripInfoResponse = await fetchWrapper.get<trip[]>("http://localhost:8000/api/tripinfo/?trip=" + id + "&fields=all")
+        console.log(tripInfoResponse)
+        if (!tripInfoResponse) {
             console.error('Trip not found')
+        } else {
+            myTrip.value = tripInfoResponse[0]
         }
         fetchingTrip.value = false
 	}
