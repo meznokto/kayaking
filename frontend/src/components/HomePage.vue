@@ -28,7 +28,10 @@ const { user: authUser } = storeToRefs(authStore);
 const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
 
-usersStore.getAll();
+if (authStore.accesstoken) {
+  usersStore.getAll();
+}
+
 </script>
 
 <style>
