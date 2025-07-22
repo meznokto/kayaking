@@ -23,6 +23,7 @@
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
 	import { fetchWrapper } from '@/helpers';
+	import GlobalVariables from '../globals.js'
 
 	interface trip {
 		id: number;
@@ -35,16 +36,14 @@
 
 	async function loadMoreTrips () {
 		fetchingTrips.value = true
-		//const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
-		const tripInfoResponse = await fetchWrapper.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
 
 		tripList.value.push(...(tripInfoResponse.data || []))
 		fetchingTrips.value = false
 	}
 
 	async function fetchInitialTrips() {
-		//const tripInfoResponse = await axios.get<trip[]>('http://localhost:8000/api/tripinfo/')
-		const tripInfoResponse = await fetchWrapper.get<trip[]>('http://localhost:8000/api/tripinfo/')
+		const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
 		if (!tripInfoResponse) {
 			console.error('Failed to fetch trips')
 			return

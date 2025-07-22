@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-
 import { fetchWrapper } from '@/helpers';
+import GlobalVariables from '../globals.js'
 
-const baseUrl = `http://localhost:8000/api/users/`;
+const baseUrl = GlobalVariables.apiURL + 'users/';
 
 export const useUsersStore = defineStore('users', {
     //id: 'users',

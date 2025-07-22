@@ -15,10 +15,10 @@
 							<div class="col-sm-1">
 								<router-link :to="{name: 'LaunchDetail', params: { launchid: launch.id }}">
 								<div v-if="launch.thumbnail">
-									<img v-bind:src="'http://localhost:8000' + launch.thumbnail" alt="Launch Image" class="img-fluid">
+									<img v-bind:src="GlobalVariables.imgURL + launch.thumbnail" alt="Launch Image" class="img-fluid">
 								</div>
 								<div v-else>
-									<img src="http://localhost:8000/static/default_launch_thumbnail.png" alt="Default Launch Image" class="img-fluid">
+									<img v-bind:src="GlobalVariables.imgURL + '/static/default_launch_thumbnail.png'" alt="Default Launch Image" class="img-fluid">
 								</div>
 								</router-link>
 							</div>
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+	import GlobalVariables from '../globals.js'
 
 	interface launch {
 		id: number;
@@ -59,14 +60,14 @@
 
 	async function loadMoreLaunches () {
 		fetchingLaunches.value = true
-		const launchInfoResponse = await axios.get<launch[]>('http://localhost:8000/api/launchinfo/')
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/')
 
 		launchList.value.push(...(launchInfoResponse.data || []))
 		fetchingLaunches.value = false
 	}
 
 	async function fetchInitialLaunches() {
-		const launchInfoResponse = await axios.get<launch[]>('http://localhost:8000/api/launchinfo/')
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/')
 		launchList.value = launchInfoResponse.data
 	}
 

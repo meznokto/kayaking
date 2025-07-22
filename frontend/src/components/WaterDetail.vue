@@ -33,6 +33,7 @@
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
+    import GlobalVariables from '../globals.js'
 
     const goBack = () => {
         router.go(-1)
@@ -80,7 +81,7 @@
 	async function fetchWaterDetail() {
         fetchingWater.value = true
         const id = route.params.waterid
-		const waterInfoResponse = await axios.get<water[]>("http://localhost:8000/api/waterinfo/?water=" + id + "&fields=all")
+		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + "waterinfo/?water=" + id + "&fields=all")
         
         if (waterInfoResponse.data.length > 0) {
             myWater.value = waterInfoResponse.data[0]
@@ -89,7 +90,7 @@
         }
 
         // find launches on this body of water
-		const launchInfoResponse = await axios.get<launch[]>("http://localhost:8000/api/launchinfo/?waterid=" + id)
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?waterid=" + id)
 		launchList.value = launchInfoResponse.data
         fetchingWater.value = false
 	}

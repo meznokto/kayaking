@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia';
-
 import { fetchWrapper } from '@/helpers';
-
 import router from '../routes'
+import GlobalVariables from '../globals.js'
 
-const baseUrl = `http://localhost:8000/api/token/`;
+const baseUrl = GlobalVariables.apiURL + 'token/';
 
 export const useAuthStore = defineStore('auth', {
     //id: 'auth',
@@ -16,6 +15,7 @@ export const useAuthStore = defineStore('auth', {
     }),
     actions: {
         async login(email, password) {
+            console.log("baseUrl:", baseUrl);
             this.data = await fetchWrapper.post(`${baseUrl}`, { email, password }, { credentials: 'include' });
             //console.log(this.data);
             this.accesstoken = this.data.access;

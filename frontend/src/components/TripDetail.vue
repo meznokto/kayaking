@@ -23,6 +23,7 @@
 	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
     import { fetchWrapper } from '@/helpers';
+    import GlobalVariables from '../globals.js'
 
     const goBack = () => {
         router.go(-1)
@@ -54,14 +55,15 @@
 	async function fetchTripDetail() {
         fetchingTrip.value = true
         const id = route.params.tripid
-		//const tripInfoResponse = await axios.get<trip[]>("http://localhost:8000/api/tripinfo/?trip=" + id + "&fields=all")
-        const tripInfoResponse = await fetchWrapper.get<trip[]>("http://localhost:8000/api/tripinfo/?trip=" + id + "&fields=all")
-        console.log(tripInfoResponse)
-        if (!tripInfoResponse) {
-            console.error('Trip not found')
-        } else {
-            myTrip.value = tripInfoResponse[0]
+        const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + "tripinfo/?trip=" + id + "&fields=all")
+        
+        if (!tripInfoResponse || tripInfoResponse.length === 0) {
+            console.error('Failed to fetch trip details')
+            fetchingTrip.value = false
+            return
         }
+   
+        myTrip.value = tripInfoResponse[0]
         fetchingTrip.value = false
 	}
 

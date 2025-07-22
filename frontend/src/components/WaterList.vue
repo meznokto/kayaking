@@ -22,6 +22,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
+	import GlobalVariables from '../globals.js'
 
 	interface water {
 		id: number;
@@ -36,14 +37,14 @@
 
 	async function loadMoreWaters () {
 		fetchingWaters.value = true
-		const waterInfoResponse = await axios.get<water[]>('http://localhost:8000/api/waterinfo/')
+		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/')
 
 		waterList.value.push(...(waterInfoResponse.data || []))
 		fetchingWaters.value = false
 	}
 
 	async function fetchInitialWaters() {
-		const waterInfoResponse = await axios.get<water[]>('http://localhost:8000/api/waterinfo/')
+		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.api + 'waterinfo/')
 		waterList.value = waterInfoResponse.data
 	}
 

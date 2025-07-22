@@ -14,8 +14,8 @@
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
             <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
             <div v-if="myLaunch.main_image !== null">
-                <a v-bind:href="'http://localhost:8000' + myLaunch.main_image.original">
-                    <img v-bind:src="'http://localhost:8000' + myLaunch.thumbnail" alt="Launch Image" class="img-fluid">
+                <a v-bind:href="GlobalVariables.imgURL + myLaunch.main_image.original">
+                    <img v-bind:src="GlobalVariables.imgURL + myLaunch.thumbnail" alt="Launch Image" class="img-fluid">
                 </a><br>
             </div>
 		</div>
@@ -28,6 +28,7 @@
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
+    import GlobalVariables from '../globals.js'
 
     const goBack = () => {
         router.go(-1)
@@ -67,7 +68,7 @@
 	async function fetchLaunchDetail() {
         fetchingLaunch.value = true
         const id = route.params.launchid
-		const launchInfoResponse = await axios.get<launch[]>("http://localhost:8000/api/launchinfo/?launch=" + id + "&fields=all")
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?launch=" + id + "&fields=all")
         
         if (launchInfoResponse.data.length > 0) {
             myLaunch.value = launchInfoResponse.data[0]
