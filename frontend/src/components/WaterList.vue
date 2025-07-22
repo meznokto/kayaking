@@ -44,7 +44,7 @@
 	}
 
 	async function fetchInitialWaters() {
-		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.api + 'waterinfo/')
+		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/')
 		waterList.value = waterInfoResponse.data
 	}
 
