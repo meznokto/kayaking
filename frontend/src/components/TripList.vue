@@ -36,19 +36,26 @@
 
 	async function loadMoreTrips () {
 		fetchingTrips.value = true
-		const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
 
-		tripList.value.push(...(tripInfoResponse.data || []))
+		try {
+			const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
+
+			tripList.value.push(...(tripInfoResponse.data || []))
+		} catch(error) {
+			console.error("Error fetching trips:", error.message)
+		}
 		fetchingTrips.value = false
 	}
 
 	async function fetchInitialTrips() {
-		const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
-		if (!tripInfoResponse) {
-			console.error('Failed to fetch trips')
-			return
+		fetchingTrips.value = true
+
+		try {
+			const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'tripinfo/')
+			tripList.value = tripInfoResponse
+		} catch(error) {
+			console.error("Error fetching initial trips:", error.message)
 		}
-		tripList.value = tripInfoResponse
 	}
 
 	onMounted(async () => {

@@ -55,15 +55,13 @@
 	async function fetchTripDetail() {
         fetchingTrip.value = true
         const id = route.params.tripid
-        const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + "tripinfo/?trip=" + id + "&fields=all")
-        
-        if (!tripInfoResponse || tripInfoResponse.length === 0) {
-            console.error('Failed to fetch trip details')
-            fetchingTrip.value = false
-            return
+
+        try {
+            const tripInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + "tripinfo/?trip=" + id + "&fields=all")
+            myTrip.value = tripInfoResponse[0]
+        } catch(error) {
+            console.error("Error fetching trip details:", error.message)
         }
-   
-        myTrip.value = tripInfoResponse[0]
         fetchingTrip.value = false
 	}
 

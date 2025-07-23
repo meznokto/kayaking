@@ -74,12 +74,13 @@
 	async function fetchLaunchDetail() {
         fetchingLaunch.value = true
         const id = route.params.launchid
-		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?launch=" + id + "&fields=all")
+
+        try {
+		    const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?launch=" + id + "&fields=all")
         
-        if (launchInfoResponse.data.length > 0) {
             myLaunch.value = launchInfoResponse.data[0]
-        } else {
-            console.error('Launch not found')
+        } catch(error) {
+            console.error("Error fetching launch details:", error.message)
         }
         fetchingLaunch.value = false
 	}

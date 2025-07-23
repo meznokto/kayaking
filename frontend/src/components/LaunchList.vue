@@ -101,15 +101,26 @@
 
 	async function loadMoreLaunches () {
 		fetchingLaunches.value = true
-		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
 
-		launchList.value.push(...(launchInfoResponse.data || []))
+		try {
+			const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
+
+			launchList.value.push(...(launchInfoResponse.data || []))
+		} catch(error) {
+			console.error("Error fetching more launches:", error.message)
+		}
 		fetchingLaunches.value = false
 	}
 
 	async function fetchInitialLaunches() {
-		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
-		launchList.value = launchInfoResponse.data
+		fetchingLaunches.value = true
+
+		try {
+			const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
+			launchList.value = launchInfoResponse.data
+		} catch(error) {
+			console.error("Error fetching initial launches:", error.message)
+		}
 	}
 
 	onMounted(async () => {

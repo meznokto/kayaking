@@ -1,6 +1,6 @@
 from rest_framework.views import APIView # type: ignore
 from rest_framework.response import Response # type: ignore
-from rest_framework.exceptions import APIException # type: ignore
+from rest_framework.exceptions import NotFound # type: ignore
 from rest_framework import status # type: ignore
 from django.shortcuts import get_object_or_404
 
@@ -20,7 +20,7 @@ class LaunchesAPI(APIView):
             launches = Launch.objects.filter(pk=request.GET['launch'])
             if not launches.exists():
                 # if the launch does not exist, raise a 404 error
-                raise APIException('No such launch found.')
+                raise NotFound('No such launch found.')
         else:
             launches = self.queryset.all()
 
@@ -30,28 +30,28 @@ class LaunchesAPI(APIView):
             launches = self.queryset.filter(body_of_water__id=waterid)
             if not launches.exists():
                 # if no launches are found for the given water body, raise a 404 error
-                raise APIException('No launches found.')
+                raise NotFound('No launches found.')
         
         if 'country' in request.GET:
             country = request.GET['country']
             launches = self.queryset.filter(country__id=country)
             if not launches.exists():
-                raise APIException('No launches found.')
+                raise NotFound('No launches found.')
         elif 'state' in request.GET:
             state = request.GET['state']
             launches = self.queryset.filter(state__id=state)
             if not launches.exists():
-                raise APIException('No launches found.')
+                raise NotFound('No launches found.')
         elif 'county' in request.GET:
             county = request.GET['county']
             launches = self.queryset.filter(county__id=county)
             if not launches.exists():
-                raise APIException('No launches found.')
+                raise NotFound('No launches found.')
         elif 'city' in request.GET:
             city = request.GET['city']
             launches = self.queryset.filter(city__id=city)
             if not launches.exists():
-                raise APIException('No launches found.')
+                raise NotFound('No launches found.')
 
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields

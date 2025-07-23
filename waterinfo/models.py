@@ -22,7 +22,7 @@ class Water(models.Model):
     date_updated = models.DateTimeField(default=timezone.now)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
-    main_image = models.ForeignKey('waterinfo.WaterImage', on_delete=models.SET_NULL, null=True, related_name="water_main_image")
+    main_image = models.ForeignKey('waterinfo.WaterImage', on_delete=models.SET_NULL, null=True, blank=True, related_name="water_main_image")
 
     WaterType = [
         (0, "River"),
@@ -31,7 +31,7 @@ class Water(models.Model):
         (3, "Other"),
     ]
     water_type = models.SmallIntegerField(choices=WaterType, default=1)
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)

@@ -1,6 +1,6 @@
 from rest_framework.views import APIView # type: ignore
 from rest_framework.response import Response # type: ignore
-from rest_framework.exceptions import APIException # type: ignore
+from rest_framework.exceptions import NotFound # type: ignore
 from rest_framework import status # type: ignore
 from django.shortcuts import get_object_or_404
 
@@ -20,7 +20,7 @@ class WaterAPI(APIView):
             waters = Water.objects.filter(pk=request.GET['water'])
             if not waters.exists():
                 # if the launch does not exist, raise a 404 error
-                raise APIException('No such water found.')
+                raise NotFound('No such water found.')
         else:
             waters = self.queryset.all()
         
@@ -28,22 +28,22 @@ class WaterAPI(APIView):
             country = request.GET['country']
             waters = self.queryset.filter(country__id=country)
             if not waters.exists():
-                raise APIException('No waters found.')
+                raise NotFound('No waters found.')
         elif 'state' in request.GET:
             state = request.GET['state']
             waters = self.queryset.filter(state__id=state)
             if not waters.exists():
-                raise APIException('No waters found.')
+                raise NotFound('No waters found.')
         elif 'county' in request.GET:
             county = request.GET['county']
             waters = self.queryset.filter(county__id=county)
             if not waters.exists():
-                raise APIException('No waters found.')
+                raise NotFound('No waters found.')
         elif 'city' in request.GET:
             city = request.GET['city']
             waters = self.queryset.filter(city__id=city)
             if not waters.exists():
-                raise APIException('No waters found.')
+                raise NotFound('No waters found.')
 
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':

@@ -4,14 +4,17 @@
 		<p>Loading...</p>
 	</div>
 	<div v-else class="row">
-		<div class="col-md-12">
+		<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
+			<h3>Filtered Bodies of Water</h3>
+		</div>
+		<div v-else class="col-md-12">
 			<h3>Bodies of Water</h3>
 		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="water in waterList" :key=water.id class="list-group-item">
 					<router-link :to="{name: 'WaterDetail', params: { waterid: water.id }}">
-					{{water.name}} - {{water.city.name}}, {{water.state.abbr}}, {{water.country.abbr}}</router-link>
+					{{water.name}} - <div v-if="water.city !== null" style="display:inline;">{{water.city.name}}, </div>{{water.state.abbr}}, {{water.country.abbr}}</router-link>
 				</li>
 			</ul>
 		</div>
@@ -75,15 +78,27 @@
 
 	async function loadMoreWaters () {
 		fetchingWaters.value = true
-		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
 
-		waterList.value.push(...(waterInfoResponse.data || []))
+		try {
+			const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+
+			waterList.value.push(...(waterInfoResponse.data || []))
+		} catch(error) {
+			console.error("Error fetching more waters:", error.message)
+		}
 		fetchingWaters.value = false
 	}
 
 	async function fetchInitialWaters() {
-		const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
-		waterList.value = waterInfoResponse.data
+		fetchingWaters.value = true
+
+		try {
+			const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+			waterList.value = waterInfoResponse.data
+		} catch(error) {
+			console.error("Error fetching water list:", error.message)
+		}
+		fetchingWaters.value = false
 	}
 
 	onMounted(async () => {
