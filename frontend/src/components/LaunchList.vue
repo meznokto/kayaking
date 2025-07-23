@@ -121,6 +121,7 @@
 		} catch(error) {
 			console.error("Error fetching initial launches:", error.message)
 		}
+		fetchingLaunches.value = false
 	}
 
 	onMounted(async () => {

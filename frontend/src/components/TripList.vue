@@ -56,6 +56,7 @@
 		} catch(error) {
 			console.error("Error fetching initial trips:", error.message)
 		}
+		fetchingTrips.value = false
 	}
 
 	onMounted(async () => {
