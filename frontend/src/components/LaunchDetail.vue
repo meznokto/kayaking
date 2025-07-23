@@ -9,8 +9,10 @@
 		</div>
 		<div class="col-md-12">
             {{ myLaunch.name }} on <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
-	    <router-link :to="{name: 'LaunchList', params: {city: myLaunch.city.id }}">{{ myLaunch.city.name }}</router-link>, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
-            {{ myLaunch.county.name }} County<br>
+	    <router-link :to="{name: 'LaunchListCity', params: {city: myLaunch.city.id }}">{{ myLaunch.city.name }}</router-link>, 
+        <router-link :to="{name: 'LaunchListState', params: {state: myLaunch.state.id }}">{{ myLaunch.state.abbr }}</router-link>, 
+        <router-link :to="{name: 'LaunchListCountry', params: {country: myLaunch.country.id }}">{{ myLaunch.country.abbr }}</router-link><br>
+        <router-link :to="{name: 'LaunchListCounty', params: {county: myLaunch.county.id }}">{{ myLaunch.county.name }} County</router-link><br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
             <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
             <div v-if="myLaunch.main_image !== null">
@@ -39,9 +41,12 @@
 		name: string;
 		city: { id: number;
 			name: string };
-        county: { name: string };
-		state: { abbr: string };
-		country: { abbr: string };
+        county: { id: number;
+            name: string };
+		state: { id: number; 
+            abbr: string };
+		country: { id: number; 
+            abbr: string };
         body_of_water: { id: number; name: string };
         latitude: number;
         longitude: number;
@@ -52,11 +57,10 @@
 	const myLaunch = ref(<launch>{
         id: 0,
         name: '',
-        city: { id: 0,
-		name: '' },
-        county: { name: '' },
-        state: { abbr: '' },
-        country: { abbr: '' },
+        city: { id: 0, name: '' },
+        county: { id: 0, name: '' },
+        state: { id: 0, abbr: '' },
+        country: { id: 0, abbr: '' },
         body_of_water: { id: 0, name: '' },
         latitude: 0,
         longitude: 0,

@@ -4,11 +4,11 @@
 		<p>Loading...</p>
 	</div>
 	<div v-else class="row">
-		<div v-if="route.params.city" class="col-md-12">
+		<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
 			<h3>Filtered Boat Launches</h3>
 		</div>
 		<div v-else class="col-md-12">
-			<h3>Boat Launches</h3>
+			<h3>Latest Boat Launches</h3>
 		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
@@ -40,7 +40,7 @@
 			</ul>
 		</div>
 	</div>
-	<div v-if="route.params.city">
+	<div v-if="route.params.city || route.params.county || route.params.state || route.params.country">
 		<button @click="clearFilters" class="btn btn-secondary mt-3">Clear Filters</button>
 	</div>
 </div>
@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import { useRoute } from 'vue-router'
+	import { routerViewLocationKey, useRoute } from 'vue-router'
 	import axios from 'axios'
 	import GlobalVariables from '../globals.js'
 
@@ -65,15 +65,37 @@
 	const route = useRoute();
 	const launchList = ref([] as launch[])
 	const fetchingLaunches = ref(false)
-	let params = '?'
+	let params = '?';
 
 	if (typeof route.params.city !== 'undefined') {
 		params += "city=" + route.params.city;
+	}
+	else if (typeof route.params.county !== 'undefined') {
+		params += "county=" + route.params.county;
+	}
+	else if (typeof route.params.state !== 'undefined') {
+		params += "state=" + route.params.state;
+	}
+	else if (typeof route.params.country !== 'undefined') {
+		params += "country=" + route.params.country;
 	}
 
 	function clearFilters() {
 		// clear our filters and reload the launch list
 		params = ""
+		if (typeof route.params.city !== 'undefined') {
+			route.params.city = null;
+		}
+		if (typeof route.params.county !== 'undefined') {
+			route.params.county = null;
+		}
+		if (typeof route.params.state !== 'undefined') {
+			route.params.state = null;
+		}
+		if (typeof route.params.state !== 'undefined') {
+			route.params.country = null;
+		}
+
 		fetchInitialLaunches();
 	}
 

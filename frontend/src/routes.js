@@ -12,7 +12,11 @@ import Login from './components/Login.vue'
 const routes = [
   { path: '/', name: "Home", component: HomePage },
   { path: '/login', name: "Login", component: Login },
-  { path: '/launchlist/:city?', name: "LaunchList", component: launchList },
+  { path: '/launchlist', name: "LaunchList", component: launchList },
+  { path: '/launchlist/bycity/:city', name: "LaunchListCity", component: launchList },
+  { path: '/launchlist/bystate/:state', name: "LaunchListState", component: launchList },
+  { path: '/launchlist/bycountry/:country', name: "LaunchListCountry", component: launchList },
+  { path: '/launchlist/bycounty/:county', name: "LaunchListCounty", component: launchList },
   { path: '/waterlist', name: "WaterList", component: WaterList },
   { path: '/triplist', name: "TripList", component: TripList },
   { path: '/launchdetail/:launchid', name: "LaunchDetail", component: LaunchDetail },
