@@ -9,7 +9,7 @@
 		</div>
 		<div class="col-md-12">
             {{ myLaunch.name }} on <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
-            {{ myLaunch.city.name }}, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
+	    <router-link :to="{name: 'LaunchList', params: {city: myLaunch.city.id }}">{{ myLaunch.city.name }}</router-link>, {{ myLaunch.state.abbr }}, {{ myLaunch.country.abbr }}<br>
             {{ myLaunch.county.name }} County<br>
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
             <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
@@ -37,7 +37,8 @@
 	interface launch {
 		id: number;
 		name: string;
-		city: { name: string };
+		city: { id: number;
+			name: string };
         county: { name: string };
 		state: { abbr: string };
 		country: { abbr: string };
@@ -51,7 +52,8 @@
 	const myLaunch = ref(<launch>{
         id: 0,
         name: '',
-        city: { name: '' },
+        city: { id: 0,
+		name: '' },
         county: { name: '' },
         state: { abbr: '' },
         country: { abbr: '' },

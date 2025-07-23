@@ -4,7 +4,10 @@
 		<p>Loading...</p>
 	</div>
 	<div v-else class="row">
-		<div class="col-md-12">
+		<div v-if="route.params.city" class="col-md-12">
+			<h3>Filtered Boat Launches</h3>
+		</div>
+		<div v-else class="col-md-12">
 			<h3>Boat Launches</h3>
 		</div>
 		<div class="col-md-12">
@@ -37,11 +40,15 @@
 			</ul>
 		</div>
 	</div>
+	<div v-if="route.params.city">
+		<button @click="clearFilters" class="btn btn-secondary mt-3">Clear Filters</button>
+	</div>
 </div>
 </template>
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
+	import { useRoute } from 'vue-router'
 	import axios from 'axios'
 	import GlobalVariables from '../globals.js'
 
@@ -55,19 +62,31 @@
 		thumbnail: string;
 	}
 
+	const route = useRoute();
 	const launchList = ref([] as launch[])
 	const fetchingLaunches = ref(false)
+	let params = '?'
+
+	if (typeof route.params.city !== 'undefined') {
+		params += "city=" + route.params.city;
+	}
+
+	function clearFilters() {
+		// clear our filters and reload the launch list
+		params = ""
+		fetchInitialLaunches();
+	}
 
 	async function loadMoreLaunches () {
 		fetchingLaunches.value = true
-		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/')
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
 
 		launchList.value.push(...(launchInfoResponse.data || []))
 		fetchingLaunches.value = false
 	}
 
 	async function fetchInitialLaunches() {
-		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/')
+		const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
 		launchList.value = launchInfoResponse.data
 	}
 

@@ -7,35 +7,55 @@ from django.shortcuts import get_object_or_404
 from .models import Launch
 from .serializers import LaunchSerializer
 
-class LaunchNotFoundException(APIException):
-    status_code = 404
-    default_detail = 'Launch not found.'
-    default_code = 'launch_not_found'
-
 class LaunchesAPI(APIView):
     queryset = Launch.objects.all().order_by('-date_updated')
     serializer_class = LaunchSerializer
 
     def get(self, request):
+        # if a launch parameter was provided, show only results for that launch
+        # this allows for more efficient queries by only returning necessary fields
+        # e.g., ?launch=123
+        # if no launch is specified, return all launches
+        if 'launch' in request.GET:
+            launches = Launch.objects.filter(pk=request.GET['launch'])
+            if not launches.exists():
+                # if the launch does not exist, raise a 404 error
+                raise APIException('No such launch found.')
+        else:
+            launches = self.queryset.all()
+
         # if a waterid was provided, show only launches on that body of water
         if 'waterid' in request.GET:
             waterid = request.GET['waterid']
             launches = self.queryset.filter(body_of_water__id=waterid)
             if not launches.exists():
                 # if no launches are found for the given water body, raise a 404 error
-                raise LaunchNotFoundException()
-        else:
-            # if a launch parameter was provided, show only results for that launch
-            # this allows for more efficient queries by only returning necessary fields
-            # e.g., ?launch=123
-            # if no launch is specified, return all launches
-            if 'launch' in request.GET:
-                launches = Launch.objects.filter(pk=request.GET['launch'])
-                if not launches.exists():
-                    # if the launch does not exist, raise a 404 error
-                    raise LaunchNotFoundException()
-            else:
-                launches = self.queryset.all()
+                raise APIException('No launches found.')
+        
+        if 'country' in request.GET:
+            country = request.GET['country']
+            launches = self.queryset.filter(country__id=country)
+            if not launches.exists():
+                raise APIException('No launches found.')
+            
+        if 'state' in request.GET:
+            state = request.GET['state']
+            launches = self.queryset.filter(state__id=state)
+            if not launches.exists():
+                raise APIException('No launches found.')
+            
+        if 'county' in request.GET:
+            county = request.GET['county']
+            launches = self.queryset.filter(county__id=county)
+            if not launches.exists():
+                raise APIException('No launches found.')
+            
+        if 'city' in request.GET:
+            city = request.GET['city']
+            launches = self.queryset.filter(city__id=city)
+            if not launches.exists():
+                raise APIException('No launches found.')
+            
 
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields
