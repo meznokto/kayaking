@@ -10,16 +10,6 @@ from django.shortcuts import get_object_or_404
 from .models import Country, State, City, County
 from launchinfo.serializers import CitySerializer, StateSerializer, CountySerializer, CountrySerializer
 
-class StateNotGivenException(APIException):
-    status_code = 404
-    default_detail = 'No state provided.'
-    default_code = 'no_state_given'
-
-class CitiesNotFoundException(APIException):
-    status_code = 404
-    default_detail = 'No cities found.'
-    default_code = 'no_cities_found'
-
 class CityAPI(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]  # Only allow authenticated users
@@ -31,10 +21,54 @@ class CityAPI(APIView):
         if 'state' in request.GET:
             cities = City.objects.filter(state=request.GET['state'])
             if not cities.exists():
-                raise CitiesNotFoundException()
+                raise APIException('No cities found for the given state.')
         else:
-            raise StateNotGivenException()
+            raise APIException('No state provided.')
 
         serializer = CitySerializer(cities, many=True, fields=('id', 'name'))
         return Response(serializer.data)
 
+class CountryAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]  # Only allow authenticated users
+
+    serializer_class = CountrySerializer
+
+    def get(self, request):
+        countries = Country.objects.all().order_by('name')
+        serializer = CountrySerializer(countries, many=True, fields=('id', 'name'))
+        return Response(serializer.data)
+    
+class StateAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]  # Only allow authenticated users
+
+    serializer_class = StateSerializer
+
+    def get(self, request):
+        if 'country' in request.GET:
+            states = State.objects.filter(country=request.GET['country'])
+            if not states.exists():
+                raise APIException('No states found for the given country.')
+        else:
+            raise APIException('No country provided.')
+
+        serializer = StateSerializer(states, many=True, fields=('id', 'name'))
+        return Response(serializer.data)
+    
+class CountyAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]  # Only allow authenticated users
+
+    serializer_class = CountySerializer
+
+    def get(self, request):
+        if 'state' in request.GET:
+            counties = County.objects.filter(state=request.GET['state'])
+            if not counties.exists():
+                raise APIException('No counties found for the given state.')
+        else:
+            raise APIException('No state provided.')
+
+        serializer = CountySerializer(counties, many=True, fields=('id', 'name'))
+        return Response(serializer.data)
