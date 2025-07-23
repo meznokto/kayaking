@@ -10,7 +10,10 @@
 		<div class="col-md-12">
             {{ myWater.name }} ({{ myWater.water_type_text }})<br>
             {{ myWater.latitude }}, {{ myWater.longitude }}<br>
-            {{ myWater.city.name }}, {{ myWater.state.abbr }}, {{ myWater.country.abbr }} ({{ myWater.county.name }} County)<br>
+            <router-link :to="{name: 'WaterListCity', params: {city: myWater.city.id }}">{{ myWater.city.name }}</router-link>, 
+            <router-link :to="{name: 'WaterListState', params: {state: myWater.state.id }}">{{ myWater.state.abbr }}</router-link>, 
+            <router-link :to="{name: 'WaterListCountry', params: {country: myWater.country.id }}">{{ myWater.country.abbr }}</router-link><br>
+            <router-link :to="{name: 'WaterListCounty', params: {county: myWater.county.id }}">{{ myWater.county.name }} County</router-link><br>
             <a :href="'https://maps.google.com/?q=' + myWater.latitude + ',' + myWater.longitude + '&ll=' + myWater.latitude + ',' + myWater.longitude + '&z=14'" target="_blank">View on Google Maps</a><br>
 		</div>
 	</div>
@@ -45,10 +48,10 @@
         water_type_text: string;
         latitude: number;
         longitude: number;
-        city: { name: string };
-        state: { abbr: string };
-        country: { abbr: string };
-        county: { name: string };
+        city: { id: number; name: string };
+        state: { id: number; abbr: string };
+        country: { id: number; abbr: string };
+        county: { id: number; name: string };
 	}
 
     interface launch {
@@ -67,10 +70,10 @@
         water_type_text: '',
         latitude: 0,
         longitude: 0,
-        city: { name: '' },
-        state: { abbr: '' },
-        country: { abbr: '' },
-        county: { name: '' }
+        city: { id: 0, name: '' },
+        state: { id: 0, abbr: '' },
+        country: { id: 0, abbr: '' },
+        county: { id: 0, name: '' }
     })
 
     const launchList = ref([] as launch[])

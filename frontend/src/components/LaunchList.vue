@@ -30,9 +30,9 @@
 									{{launch.name}}
 								</router-link><br>
 								<router-link :to="{name: 'WaterDetail', params: { waterid: launch.body_of_water.id }}">
-								{{ launch.body_of_water.name}}
+									{{ launch.body_of_water.name}}
 								</router-link><br>
-								{{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}
+									{{launch.city.name}}, {{launch.state.abbr}}, {{launch.country.abbr}}
 							</div>
 						</div>
 					</div>
