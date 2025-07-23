@@ -14,7 +14,7 @@
             {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
             <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
             <div v-if="myLaunch.main_image !== null">
-                <a v-bind:href="GlobalVariables.imgURL + myLaunch.main_image.original">
+                <a v-bind:href="GlobalVariables.imgURL + myLaunch.main_image.original" target="_blank">
                     <img v-bind:src="GlobalVariables.imgURL + myLaunch.thumbnail" alt="Launch Image" class="img-fluid">
                 </a><br>
             </div>
