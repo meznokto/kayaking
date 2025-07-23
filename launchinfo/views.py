@@ -37,25 +37,21 @@ class LaunchesAPI(APIView):
             launches = self.queryset.filter(country__id=country)
             if not launches.exists():
                 raise APIException('No launches found.')
-            
-        if 'state' in request.GET:
+        elif 'state' in request.GET:
             state = request.GET['state']
             launches = self.queryset.filter(state__id=state)
             if not launches.exists():
                 raise APIException('No launches found.')
-            
-        if 'county' in request.GET:
+        elif 'county' in request.GET:
             county = request.GET['county']
             launches = self.queryset.filter(county__id=county)
             if not launches.exists():
                 raise APIException('No launches found.')
-            
-        if 'city' in request.GET:
+        elif 'city' in request.GET:
             city = request.GET['city']
             launches = self.queryset.filter(city__id=city)
             if not launches.exists():
                 raise APIException('No launches found.')
-            
 
         # if a field parameter was provided, filter the fields
         # this allows for more efficient queries by only returning necessary fields

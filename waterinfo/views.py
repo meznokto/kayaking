@@ -29,20 +29,17 @@ class WaterAPI(APIView):
             waters = self.queryset.filter(country__id=country)
             if not waters.exists():
                 raise APIException('No waters found.')
-            
-        if 'state' in request.GET:
+        elif 'state' in request.GET:
             state = request.GET['state']
             waters = self.queryset.filter(state__id=state)
             if not waters.exists():
                 raise APIException('No waters found.')
-            
-        if 'county' in request.GET:
+        elif 'county' in request.GET:
             county = request.GET['county']
             waters = self.queryset.filter(county__id=county)
             if not waters.exists():
                 raise APIException('No waters found.')
-            
-        if 'city' in request.GET:
+        elif 'city' in request.GET:
             city = request.GET['city']
             waters = self.queryset.filter(city__id=city)
             if not waters.exists():
@@ -55,7 +52,8 @@ class WaterAPI(APIView):
             if 'field' in request.GET:
                 if request.GET['field'] == 'all':
                     # should we check and not allow all fields if
-                    # no launch is specified?
+                    # no water is specified, to avoid basically dumping
+                    # the database?
                     fields = None  # return all fields
                 else:
                     # if specific fields are requested, filter them
