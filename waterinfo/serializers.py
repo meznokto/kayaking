@@ -1,8 +1,12 @@
 from rest_framework import serializers # type: ignore
 
 from waterinfo.models import Water, WaterImage
+from kayakutils.serializers import CountrySerializer, StateSerializer, CountySerializer, CitySerializer
 
-from launchinfo.serializers import CitySerializer, StateSerializer, CountySerializer, CountrySerializer
+class WaterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Water
+        fields = ['id', 'name']
 
 class WaterImageSerializer(serializers.ModelSerializer):
     class Meta:
