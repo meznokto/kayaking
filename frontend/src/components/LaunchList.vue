@@ -1,7 +1,7 @@
 <template>
 <div class="app">
 	<div v-if="fetchingLaunches">
-		<p>Loading...</p>
+		<b-spinner variant="primary" label="Loading"></b-spinner>
 	</div>
 	<div v-else class="row">
 		<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">

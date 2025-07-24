@@ -1,9 +1,10 @@
 <template>
 <div class="app">
     <div v-if="fetchingLaunch">
-        <p>Loading...</p>
+        <h3>Boat Launch Info</h3>
+        <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
-	<div v=else class="row">
+	<div v-else class="row">
 		<div class="col-md-12">
 			<h3>Boat Launch Info</h3>
 		</div>

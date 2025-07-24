@@ -2,6 +2,7 @@ from rest_framework.views import APIView # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework.exceptions import NotFound # type: ignore
 from rest_framework import status # type: ignore
+from time import sleep
 from django.shortcuts import get_object_or_404
 
 from .models import Launch
@@ -12,6 +13,7 @@ class LaunchesAPI(APIView):
     serializer_class = LaunchSerializer
 
     def get(self, request):
+        #sleep(5)    # for testing loading message/animation
         # if a launch parameter was provided, show only results for that launch
         # this allows for more efficient queries by only returning necessary fields
         # e.g., ?launch=123

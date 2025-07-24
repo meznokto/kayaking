@@ -1,7 +1,7 @@
 <template>
 <div class="app">
 	<div v-if="fetchingTrips">
-		<p>Loading...</p>
+		<b-spinner variant="primary" label="Loading"></b-spinner>
 	</div>
 	<div v-else class="row">
 		<div class="col-md-12">

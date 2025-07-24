@@ -16,15 +16,15 @@ function logout() {
 <template>
   <div id="navbar">
       <b-navbar toggleable="lg">
-        <b-navbar-brand to="/">Kayak Info</b-navbar-brand>
+        <b-navbar-brand variant="primary" to="/">Kayak Info</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
-            <b-nav-item :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
-            <b-nav-item :to="{name: 'TripList'}">Trips</b-nav-item>
-            <b-nav-item v-if="!authStore.accesstoken" :to="{name: 'Login'}">Login</b-nav-item>
-            <b-nav-item v-else @click="authStore.logout()">Logout</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'TripList'}">Trips</b-nav-item>
+            <b-nav-item variant="primary" v-if="!authStore.accesstoken" :to="{name: 'Login'}">Login</b-nav-item>
+            <b-nav-item variant="primary" v-else @click="authStore.logout()">Logout</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
