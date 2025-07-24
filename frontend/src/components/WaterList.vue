@@ -1,15 +1,15 @@
 <template>
 <div class="app">
+	<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
+		<h3>Filtered Bodies of Water</h3>
+	</div>
+	<div v-else class="col-md-12">
+		<h3>Bodies of Water</h3>
+	</div>
 	<div v-if="fetchingWaters">
 		<b-spinner variant="primary" label="Loading"></b-spinner>
 	</div>
 	<div v-else class="row">
-		<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
-			<h3>Filtered Bodies of Water</h3>
-		</div>
-		<div v-else class="col-md-12">
-			<h3>Bodies of Water</h3>
-		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="water in waterList" :key=water.id class="list-group-item">

@@ -1,12 +1,12 @@
 <template>
 <div class="app">
+	<div class="col-md-12">
+		<h3>Trips</h3>
+	</div>
 	<div v-if="fetchingTrips">
 		<b-spinner variant="primary" label="Loading"></b-spinner>
 	</div>
 	<div v-else class="row">
-		<div class="col-md-12">
-			<h3>Trips</h3>
-		</div>
 		<div class="col-md-12">
 			<ul class="list-group">
 				<li v-for="trip in tripList" :key=trip.id class="list-group-item">

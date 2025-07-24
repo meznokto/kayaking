@@ -1,12 +1,12 @@
 <template>
 <div class="app">
+    <div class="col-md-12">
+		<h3>Trip Info</h3>
+	</div>
     <div v-if="fetchingTrip">
         <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
 	<div v-else class="row">
-		<div class="col-md-12">
-			<h3>Trip Info</h3>
-		</div>
 		<div class="col-md-12">
             <router-link :to="{name: 'WaterDetail', params: { waterid: myTrip.body_of_water.id }}">{{ myTrip.body_of_water.name }}</router-link><br>
             {{ myTrip.start_time }} - {{ myTrip.end_time }}<br>

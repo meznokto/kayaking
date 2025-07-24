@@ -1,12 +1,12 @@
 <template>
 <div class="app">
+    <div class="col-md-12">
+		<h3>Water Info</h3>
+	</div>
     <div v-if="fetchingWater">
         <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
 	<div v-else class="row">
-		<div class="col-md-12">
-			<h3>Water Info</h3>
-		</div>
 		<div class="col-md-12">
             {{ myWater.name }}<br>
             {{ myWater.latitude }}, {{ myWater.longitude }}<br>

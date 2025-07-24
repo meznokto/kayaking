@@ -1,13 +1,12 @@
 <template>
 <div class="app">
+    <div class="col-md-12">
+		<h3>Boat Launch Info</h3>
+	</div>
     <div v-if="fetchingLaunch">
-        <h3>Boat Launch Info</h3>
         <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
 	<div v-else class="row">
-		<div class="col-md-12">
-			<h3>Boat Launch Info</h3>
-		</div>
 		<div class="col-md-12">
             {{ myLaunch.name }} on <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
 	    <router-link :to="{name: 'LaunchListCity', params: {city: myLaunch.city.id }}">{{ myLaunch.city.name }}</router-link>, 
