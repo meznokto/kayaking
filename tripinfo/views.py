@@ -31,8 +31,14 @@ class TripAPI(APIView):
             trips = Trip.objects.filter(id=request.GET['trip']) 
             if not trips.exists():
                 raise TripNotFoundException()
+        elif 'mytrips' in request.GET:
+            if request.user.is_authenticated:
+                trips = self.queryset.filter(user = request.user)
+            else:
+                # can only request your trips if authenticated
+                raise TripNotFoundException()
         else:
-            trips = self.queryset.all()
+            trips = self.queryset.all().order_by('-start_time')
             
         if request.user.is_authenticated:
             for trip in trips:
