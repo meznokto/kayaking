@@ -90,7 +90,6 @@
             const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/?water=' + id + "&fields=all")
         
             if (waterInfoResponse.length > 0) {
-                console.log(waterInfoResponse)
                 myWater.value = waterInfoResponse[0]
             }
         } catch(error) {

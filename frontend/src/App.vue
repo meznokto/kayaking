@@ -23,6 +23,7 @@ function logout() {
             <b-nav-item variant="primary" :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
             <b-nav-item variant="primary" :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
             <b-nav-item variant="primary" :to="{name: 'TripList'}">Trips</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'CreateCity'}">Add City</b-nav-item>
             <b-nav-item variant="primary" v-if="!authStore.accesstoken" :to="{name: 'Login'}">Login</b-nav-item>
             <b-nav-item variant="primary" v-else @click="authStore.logout()">Logout</b-nav-item>
           </b-navbar-nav>

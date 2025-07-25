@@ -22,11 +22,22 @@ class CityAPI(APIView):
             cities = City.objects.filter(state=request.GET['state'])
             if not cities.exists():
                 raise APIException('No cities found for the given state.')
+        elif 'county' in request.GET:
+            cities = City.objects.filter(state=request.GET['county'])
+            if not cities.exists():
+                raise APIException('No cities found for the given county.')
         else:
-            raise APIException('No state provided.')
+            raise APIException('No state or county provided.')
 
         serializer = CitySerializer(cities, many=True, fields=('id', 'name'))
         return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            city = serializer.save()
+            return Response(CitySerializer(city).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CountryAPI(APIView):
     authentication_classes = [JWTAuthentication]

@@ -5,7 +5,7 @@ from kayakutils.models import Country, State, County, City
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'state', 'county']
 
     def __init__(self, *args, **kwargs):
         fields = kwargs.pop('fields', None)
