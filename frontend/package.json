@@ -13,6 +13,7 @@
     "axios": "^1.10.0",
     "bootstrap": "^5.3.7",
     "bootstrap-vue-next": "^0.30.4",
+    "dayjs": "^1.11.13",
     "pinia": "^3.0.3",
     "unplugin-vue-components": "^28.8.0",
     "vee-validate": "^4.15.1",

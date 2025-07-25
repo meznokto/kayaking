@@ -9,8 +9,13 @@
 	<div v-else class="row">
 		<div class="col-md-12">
             <router-link :to="{name: 'WaterDetail', params: { waterid: myTrip.body_of_water.id }}">{{ myTrip.body_of_water.name }}</router-link><br>
-            {{ myTrip.start_time }} - {{ myTrip.end_time }}<br>
-            From {{ myTrip.start_launch.name }} to {{ myTrip.end_launch.name }}<br>
+            {{ dayjs(myTrip.start_time).format('MMMM D, YYYY') }}<br>
+            From {{ myTrip.start_launch.name }} at {{ dayjs(myTrip.start_time).format('h:mm A') }}<br>
+            To {{ myTrip.end_launch.name }} at {{ dayjs(myTrip.end_time).format('h:mm A') }}
+            <template v-if="dayjs(myTrip.start_time).format('YYYY-MM-DD') !== dayjs(myTrip.end_time).format('YYYY-MM-DD')">
+                {{ dayjs(myTrip.end_time).format('MMMM D') }}
+            </template>
+            <br>
             {{ myTrip.notes }}
 		</div>
 	</div>
@@ -22,6 +27,7 @@
 	import { ref, onMounted } from 'vue'
 	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
+    import dayjs from 'dayjs';
     import { fetchWrapper } from '@/helpers';
     import GlobalVariables from '../globals.js'
 

@@ -28,7 +28,6 @@ function logout() {
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-    <component :is="currentView"></component>
   </div>
   <div id="app">
   <router-view />

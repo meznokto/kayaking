@@ -11,7 +11,7 @@
 			<ul class="list-group">
 				<li v-for="trip in tripList" :key=trip.id class="list-group-item">
 					<router-link :to="{name: 'TripDetail', params: { tripid: trip.id }}">
-					{{trip.body_of_water.name}} - {{trip.start_time}}</router-link>
+					{{dayjs(trip.start_time).format('MMMM D, YYYY')}} - {{trip.body_of_water.name}}</router-link>
 				</li>
 			</ul>
 		</div>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import axios from 'axios'
+	import dayjs from 'dayjs';
 	import { fetchWrapper } from '@/helpers';
 	import GlobalVariables from '../globals.js'
 
