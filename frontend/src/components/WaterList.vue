@@ -28,6 +28,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import { useRoute } from 'vue-router';
+	import { fetchWrapper } from '@/helpers';
 	import GlobalVariables from '../globals.js'
 
 	interface water {
@@ -93,7 +94,7 @@
 
 		try {
 			const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
-			waterList.value = waterInfoResponse.data
+			waterList.value = waterInfoResponse
 		} catch(error) {
 			console.error("Error fetching water list:", error.message)
 		}

@@ -49,6 +49,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import { routerViewLocationKey, useRoute } from 'vue-router'
+	import { fetchWrapper } from '@/helpers';
 	import GlobalVariables from '../globals.js'
 
 	interface launch {
@@ -115,7 +116,7 @@
 
 		try {
 			const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
-			launchList.value = launchInfoResponse.data
+			launchList.value = launchInfoResponse
 		} catch(error) {
 			console.error("Error fetching initial launches:", error.message)
 		}
