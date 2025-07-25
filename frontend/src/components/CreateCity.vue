@@ -1,25 +1,25 @@
 <template>
-    <form @submit.prevent="submitForm">
-        <div>
-            <label for="name">City Name:</label>
-            <input type="text" id="name" v-model="formData.name" required />
-        </div>
-        <div>
-            <select id="country" v-model="selectedCountry" @change="fetchStates">
+    <b-form @submit.prevent="submitForm">
+        <b-form-group label="City Name">
+            <b-form-input id="name" v-model="formData.name" type="text" required></b-form-input>
+        </b-form-group>
+        <b-form-group label="Country">
+            <b-form-select id="country" v-model="selectedCountry" @change="fetchStates">
                 <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
-            </select>
-            <select id="state" v-model="formData.state" @change="fetchCounties">
+            </b-form-select>
+        </b-form-group>
+        <b-form-group label="State">
+            <b-form-select id="state" v-model="formData.state" @change="fetchCounties">
                 <option v-for="state in states" :key="state.id" :value="state.id">{{ state.name }}</option>
-            </select>
-            <select id="county" v-model="formData.county" @change="fetchCities">
+            </b-form-select>
+        </b-form-group>
+        <b-form-group label="County">
+            <b-form-select id="county" v-model="formData.county">
                 <option v-for="county in counties" :key="county.id" :value="county.id">{{ county.name }}</option>
-            </select>
-            <!-- <select v-model="selectedCity">
-                <option v-for="city in cities" :key="city.id" :value="city.id">{{ city.name }}</option>
-            </select> -->
-        </div>
+            </b-form-select>
+        </b-form-group>
         <button type="submit">Add City</button>
-    </form>
+    </b-form>
 </template>
 
 <script>
