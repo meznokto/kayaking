@@ -9,6 +9,7 @@ import TripDetail from './components/TripDetail.vue'
 import WaterDetail from './components/WaterDetail.vue'
 import Login from './components/Login.vue'
 import CreateCity from './components/CreateCity.vue'
+import CreateCounty from './components/CreateCounty.vue'
 
 const routes = [
   { path: '/', name: "Home", component: HomePage },
@@ -27,7 +28,9 @@ const routes = [
   { path: '/launchdetail/:launchid', name: "LaunchDetail", component: LaunchDetail },
   { path: '/tripdetail/:tripid', name: "TripDetail", component: TripDetail },
   { path: '/waterdetail/:waterid', name: "WaterDetail", component: WaterDetail },
-  { path: '/create/city/', name: "CreateCity", component: CreateCity }
+
+  { path: '/create/city/', name: "CreateCity", component: CreateCity },
+  { path: '/create/county/', name: "CreateCounty", component: CreateCounty },
 ]
 const router = createRouter({
   history: createMemoryHistory(),

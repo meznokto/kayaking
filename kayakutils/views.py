@@ -83,3 +83,10 @@ class CountyAPI(APIView):
 
         serializer = CountySerializer(counties, many=True, fields=('id', 'name'))
         return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            city = serializer.save()
+            return Response(CountySerializer(city).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

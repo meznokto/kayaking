@@ -35,7 +35,7 @@ class StateSerializer(serializers.ModelSerializer):
 class CountySerializer(serializers.ModelSerializer):
     class Meta:
         model = County
-        fields = ['id', 'name'] 
+        fields = ['id', 'name', 'state'] 
 
     def __init__(self, *args, **kwargs):
         fields = kwargs.pop('fields', None)

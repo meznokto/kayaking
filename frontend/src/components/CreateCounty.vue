@@ -1,6 +1,6 @@
 <template>
     <b-form @submit.prevent="submitForm">
-        <b-form-group label="City Name">
+        <b-form-group label="County Name">
             <b-form-input id="name" v-model="formData.name" type="text" required></b-form-input>
         </b-form-group>
         <b-form-group label="Country">
@@ -9,17 +9,13 @@
             </b-form-select>
         </b-form-group>
         <b-form-group label="State">
-            <b-form-select id="state" v-model="formData.state" @change="fetchCounties">
+            <b-form-select id="state" v-model="formData.state">
                 <option v-for="state in states" :key="state.id" :value="state.id">{{ state.name }}</option>
             </b-form-select>
         </b-form-group>
-        <b-form-group label="County">
-            <b-form-select id="county" v-model="formData.county">
-                <option v-for="county in counties" :key="county.id" :value="county.id">{{ county.name }}</option>
-            </b-form-select>
-        </b-form-group>
-        <button type="submit">Add City</button>
-        <div v-if="showSuccessMessage">Successfully added city.</div>
+
+        <button type="submit">Add County</button>
+        <div v-if="showSuccessMessage">Successfully added county.</div>
     </b-form>
 </template>
 
@@ -32,13 +28,10 @@ export default{
     return {
         formData: {
             name: '',
-            county: 0,
             state: 0,
         },
       countries: [],
       states: [],
-      counties: [],
-      cities: [],
       selectedCountry: null,
       showSuccessMessage: false,
     };
@@ -58,23 +51,11 @@ export default{
       this.selectedCounty = null;
       this.selectedCity = null;
     },
-    async fetchCounties() {
-      this.counties = await fetchWrapper.get(GlobalVariables.apiURL + `util/counties/?state=${this.formData.state}`);
-      this.cities = [];
-      this.selectedCounty = null;
-      this.selectedCity = null;
-    },
-    async fetchCities() {
-      this.cities = await fetchWrapper.get(GlobalVariables.apiURL + `util/cities/?county=${this.formData.county}`);
-      this.selectedCity = null;
-    },
     async submitForm() {
         try {
-            const response = await fetchWrapper.post(GlobalVariables.apiURL + 'util/cities/', this.formData)
-            
+            const response = await fetchWrapper.post(GlobalVariables.apiURL + 'util/counties/', this.formData)
             this.showSuccessMessage = true
             this.formData.name = '';
-            this.formData.county = 0;
             this.formData.state = 0;
             setTimeout(() => {
                 this.showSuccessMessage = false;
