@@ -35,7 +35,6 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
     import GlobalVariables from '../globals.js'
 
@@ -87,7 +86,7 @@
         const id = route.params.waterid
 
         try {
-		    const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + "waterinfo/?water=" + id + "&fields=all")
+            const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/?water=' + id + "&fields=all")
         
             if (waterInfoResponse.data.length > 0) {
                 myWater.value = waterInfoResponse.data[0]
@@ -98,7 +97,7 @@
 
         // find launches on this body of water
         try {
-		    const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?waterid=" + id)
+		    const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfoinfo/?waterid=' + id)
 		    launchList.value = launchInfoResponse.data
         } catch(error) {
             if (error.response && error.response.status === 404) {

@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
     import GlobalVariables from '../globals.js'
 
@@ -76,7 +75,7 @@
         const id = route.params.launchid
 
         try {
-		    const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + "launchinfo/?launch=" + id + "&fields=all")
+            const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/?launch=' + id + "&fields=all")
         
             myLaunch.value = launchInfoResponse.data[0]
         } catch(error) {

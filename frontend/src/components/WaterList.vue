@@ -27,7 +27,6 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import axios from 'axios'
 	import { useRoute } from 'vue-router';
 	import GlobalVariables from '../globals.js'
 
@@ -80,7 +79,7 @@
 		fetchingWaters.value = true
 
 		try {
-			const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+			const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
 
 			waterList.value.push(...(waterInfoResponse.data || []))
 		} catch(error) {
@@ -93,7 +92,7 @@
 		fetchingWaters.value = true
 
 		try {
-			const waterInfoResponse = await axios.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+			const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
 			waterList.value = waterInfoResponse.data
 		} catch(error) {
 			console.error("Error fetching water list:", error.message)

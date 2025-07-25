@@ -49,7 +49,6 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
 	import { routerViewLocationKey, useRoute } from 'vue-router'
-	import axios from 'axios'
 	import GlobalVariables from '../globals.js'
 
 	interface launch {
@@ -103,8 +102,7 @@
 		fetchingLaunches.value = true
 
 		try {
-			const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
-
+			const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
 			launchList.value.push(...(launchInfoResponse.data || []))
 		} catch(error) {
 			console.error("Error fetching more launches:", error.message)
@@ -116,7 +114,7 @@
 		fetchingLaunches.value = true
 
 		try {
-			const launchInfoResponse = await axios.get<launch[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
+			const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/' + params)
 			launchList.value = launchInfoResponse.data
 		} catch(error) {
 			console.error("Error fetching initial launches:", error.message)

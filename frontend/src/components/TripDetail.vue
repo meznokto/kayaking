@@ -10,10 +10,10 @@
 		<div class="col-md-12">
             <router-link :to="{name: 'WaterDetail', params: { waterid: myTrip.body_of_water.id }}">{{ myTrip.body_of_water.name }}</router-link><br>
             {{ dayjs(myTrip.start_time).format('MMMM D, YYYY') }}<br>
-            From {{ myTrip.start_launch.name }} at {{ dayjs(myTrip.start_time).format('h:mm A') }}<br>
-            To {{ myTrip.end_launch.name }} at {{ dayjs(myTrip.end_time).format('h:mm A') }}
+            Start: {{ myTrip.start_launch.name }} at {{ dayjs(myTrip.start_time).format('h:mm A') }}<br>
+            End: {{ myTrip.end_launch.name }} at {{ dayjs(myTrip.end_time).format('h:mm A') }}
             <template v-if="dayjs(myTrip.start_time).format('YYYY-MM-DD') !== dayjs(myTrip.end_time).format('YYYY-MM-DD')">
-                {{ dayjs(myTrip.end_time).format('MMMM D') }}
+                ({{ dayjs(myTrip.end_time).format('MMMM D') }})
             </template>
             <br>
             {{ myTrip.notes }}
@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
-	import axios from 'axios'
     import { useRoute, useRouter } from 'vue-router';
     import dayjs from 'dayjs';
     import { fetchWrapper } from '@/helpers';
