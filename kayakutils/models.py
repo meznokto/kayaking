@@ -4,14 +4,14 @@ class Country(models.Model):
     class Meta:
         verbose_name_plural = "Countries"
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     abbr = models.CharField(max_length=5, default="")
 
     def __str__(self):
         return self.name
     
 class State(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     abbr = models.CharField(max_length=3)
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
 

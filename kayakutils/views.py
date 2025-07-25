@@ -50,6 +50,13 @@ class CountryAPI(APIView):
         serializer = CountrySerializer(countries, many=True, fields=('id', 'name'))
         return Response(serializer.data)
     
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            country = serializer.save()
+            return Response(CountrySerializer(country).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class StateAPI(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]  # Only allow authenticated users
@@ -66,6 +73,13 @@ class StateAPI(APIView):
 
         serializer = StateSerializer(states, many=True, fields=('id', 'name'))
         return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            state = serializer.save()
+            return Response(StateSerializer(state).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class CountyAPI(APIView):
     authentication_classes = [JWTAuthentication]
@@ -87,6 +101,6 @@ class CountyAPI(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            city = serializer.save()
-            return Response(CountySerializer(city).data, status=status.HTTP_201_CREATED)
+            county = serializer.save()
+            return Response(CountySerializer(county).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

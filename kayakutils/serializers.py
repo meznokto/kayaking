@@ -20,7 +20,7 @@ class CitySerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
-        fields = ['id', 'name', 'abbr']
+        fields = ['id', 'name', 'abbr', 'country']
 
     def __init__(self, *args, **kwargs):
         fields = kwargs.pop('fields', None)

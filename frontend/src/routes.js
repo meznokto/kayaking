@@ -10,6 +10,8 @@ import WaterDetail from './components/WaterDetail.vue'
 import Login from './components/Login.vue'
 import CreateCity from './components/CreateCity.vue'
 import CreateCounty from './components/CreateCounty.vue'
+import CreateState from './components/CreateState.vue'
+import CreateCountry from './components/CreateCountry.vue'
 
 const routes = [
   { path: '/', name: "Home", component: HomePage },
@@ -31,6 +33,8 @@ const routes = [
 
   { path: '/create/city/', name: "CreateCity", component: CreateCity },
   { path: '/create/county/', name: "CreateCounty", component: CreateCounty },
+  { path: '/create/state/', name: "CreateState", component: CreateState },
+  { path: '/create/country/', name: "CreateCountry", component: CreateCountry },
 ]
 const router = createRouter({
   history: createMemoryHistory(),
