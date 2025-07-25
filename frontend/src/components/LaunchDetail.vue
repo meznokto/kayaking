@@ -29,6 +29,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
     import { useRoute, useRouter } from 'vue-router';
+    import { fetchWrapper } from '@/helpers';
     import GlobalVariables from '../globals.js'
 
     const goBack = () => {
@@ -77,7 +78,7 @@
         try {
             const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/?launch=' + id + "&fields=all")
         
-            myLaunch.value = launchInfoResponse.data[0]
+            myLaunch.value = launchInfoResponse[0]
         } catch(error) {
             console.error("Error fetching launch details:", error.message)
         }

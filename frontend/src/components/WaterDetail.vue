@@ -36,6 +36,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue'
     import { useRoute, useRouter } from 'vue-router';
+    import { fetchWrapper } from '@/helpers';
     import GlobalVariables from '../globals.js'
 
     const goBack = () => {
@@ -88,8 +89,9 @@
         try {
             const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/?water=' + id + "&fields=all")
         
-            if (waterInfoResponse.data.length > 0) {
-                myWater.value = waterInfoResponse.data[0]
+            if (waterInfoResponse.length > 0) {
+                console.log(waterInfoResponse)
+                myWater.value = waterInfoResponse[0]
             }
         } catch(error) {
             console.error("Error fetching water details:", error.message)
@@ -97,8 +99,8 @@
 
         // find launches on this body of water
         try {
-		    const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfoinfo/?waterid=' + id)
-		    launchList.value = launchInfoResponse.data
+		    const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/?waterid=' + id)
+		    launchList.value = launchInfoResponse
         } catch(error) {
             if (error.response && error.response.status === 404) {
                 console.error('Server error (404):', error.response.data);
