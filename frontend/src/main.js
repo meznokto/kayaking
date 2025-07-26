@@ -6,6 +6,7 @@ import router from './routes'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+import './assets/main.css'
 
 export const app = createApp(App)
 app.use(createPinia());

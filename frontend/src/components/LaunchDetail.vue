@@ -1,19 +1,19 @@
 <template>
 <div class="app">
     <div class="col-md-12">
-		<h3>Boat Launch Info</h3>
+		<h3 v-if="fetchingLaunch">Loading...</h3>
+        <h3 v-else>{{ myLaunch.name }}</h3>
 	</div>
     <div v-if="fetchingLaunch">
         <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
 	<div v-else class="row">
 		<div class="col-md-12">
-            {{ myLaunch.name }} on <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
+        On <router-link :to="{name: 'WaterDetail', params: { waterid: myLaunch.body_of_water.id }}">{{ myLaunch.body_of_water.name }}</router-link><br>
 	    <router-link :to="{name: 'LaunchListCity', params: {city: myLaunch.city.id }}">{{ myLaunch.city.name }}</router-link>, 
         <router-link :to="{name: 'LaunchListState', params: {state: myLaunch.state.id }}">{{ myLaunch.state.abbr }}</router-link>, 
-        <router-link :to="{name: 'LaunchListCountry', params: {country: myLaunch.country.id }}">{{ myLaunch.country.abbr }}</router-link><br>
-        <router-link :to="{name: 'LaunchListCounty', params: {county: myLaunch.county.id }}">{{ myLaunch.county.name }} County</router-link><br>
-            {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
+        <router-link :to="{name: 'LaunchListCountry', params: {country: myLaunch.country.id }}">{{ myLaunch.country.abbr }}</router-link> (<router-link :to="{name: 'LaunchListCounty', params: {county: myLaunch.county.id }}">{{ myLaunch.county.name }} County</router-link>)<br>
+            Lat./Long. {{ myLaunch.latitude }}, {{ myLaunch.longitude }}<br>
             <a :href="'https://www.google.com/maps/dir/?api=1&destination=' + myLaunch.latitude + ',' + myLaunch.longitude" target="_blank">Get directions on Google Maps</a><br>
             <div v-if="myLaunch.main_image !== null">
                 <a v-bind:href="GlobalVariables.imgURL + myLaunch.main_image.original" target="_blank">

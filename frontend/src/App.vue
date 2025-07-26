@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores';
 
 const authStore = useAuthStore();
@@ -19,17 +19,17 @@ function logout() {
         <b-navbar-brand variant="primary" to="/">Kayak Info</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item variant="primary" :to="{name: 'LaunchList'}">Boat Launches</b-nav-item>
-            <b-nav-item variant="primary" :to="{name: 'WaterList'}">Bodies of Water</b-nav-item>
-            <b-nav-item variant="primary" :to="{name: 'TripList'}">Trips</b-nav-item>
+          <b-nav pills>
+            <b-nav-item variant="primary" :to="{name: 'LaunchList'}" active-class="active">Boat Launches</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'WaterList'}" active-class="active">Bodies of Water</b-nav-item>
+            <b-nav-item variant="primary" :to="{name: 'TripList'}" active-class="active">Trips</b-nav-item>
             <b-nav-item variant="primary" v-if="authStore.accesstoken" :to="{name: 'CreateCity'}">Add City</b-nav-item>
             <b-nav-item variant="primary" v-if="authStore.accesstoken" :to="{name: 'CreateCounty'}">Add County</b-nav-item>
             <b-nav-item variant="primary" v-if="authStore.accesstoken" :to="{name: 'CreateState'}">Add State</b-nav-item>
             <b-nav-item variant="primary" v-if="authStore.accesstoken" :to="{name: 'CreateCountry'}">Add Country</b-nav-item>
             <b-nav-item variant="primary" v-if="!authStore.accesstoken" :to="{name: 'Login'}">Login</b-nav-item>
             <b-nav-item variant="primary" v-else @click="authStore.logout()">Logout</b-nav-item>
-          </b-navbar-nav>
+          </b-nav>
         </b-collapse>
       </b-navbar>
   </div>

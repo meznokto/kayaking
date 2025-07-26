@@ -1,10 +1,12 @@
 <template>
 <div class="app">
-	<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
-		<h3>Filtered Bodies of Water</h3>
+	<div class="col-md-12">
+	<div v-if="fetchingWaters">
+		<h3>Loading...</h3>
 	</div>
-	<div v-else class="col-md-12">
-		<h3>Bodies of Water</h3>
+	<div v-else>
+		<h3>{{ listMessage }}</h3>
+	</div>
 	</div>
 	<div v-if="fetchingWaters">
 		<b-spinner variant="primary" label="Loading"></b-spinner>
@@ -30,11 +32,13 @@
 	import { useRoute } from 'vue-router';
 	import { fetchWrapper } from '@/helpers';
 	import GlobalVariables from '../globals.js'
+	import CreateCity from './CreateCity.vue';
 
 	interface water {
 		id: number;
 		name: string;
 		city: { name: string };
+		county: { name: string };
 		state: { abbr: string };
 		country: { abbr: string };
 	}
@@ -42,6 +46,7 @@
 	const route = useRoute();
 	const waterList = ref([] as water[])
 	const fetchingWaters = ref(false)
+	const listMessage = ref("Loading...")
 	let params = '?';
 
 	if (typeof route.params.city !== 'undefined') {
@@ -98,10 +103,25 @@
 		} catch(error) {
 			console.error("Error fetching water list:", error.message)
 		}
+		listMessage.value = "Bodies of Water"
+
+		if (typeof route.params.city !== 'undefined' && waterList.value[0].city !== null) {
+			listMessage.value += " in " + waterList.value[0].city.name
+		}
+		else if (typeof route.params.county !== 'undefined' && waterList.value[0].county !== null) {
+			listMessage.value += " in " + waterList.value[0].county.name
+		}
+		else if (typeof route.params.state !== 'undefined' && waterList.value[0].state !== null) {
+			listMessage.value += " in " + waterList.value[0].state.name
+		}
+		else if (typeof route.params.country !== 'undefined' && waterList.value[0].country !== null) {
+			listMessage.value += " in " + waterList.value[0].country.name
+		}
+
 		fetchingWaters.value = false
 	}
 
 	onMounted(async () => {
 		await fetchInitialWaters()
-	})
+	});
 </script>

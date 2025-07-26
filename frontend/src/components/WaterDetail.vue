@@ -1,20 +1,19 @@
 <template>
 <div class="app">
     <div class="col-md-12">
-		<h3>Water Info</h3>
+		<h3 v-if="fetchingWater">Loading...</h3>
+        <h3 v-else>{{ myWater.name }}</h3>
 	</div>
     <div v-if="fetchingWater">
         <b-spinner variant="primary" label="Loading"></b-spinner>
     </div>
 	<div v-else class="row">
 		<div class="col-md-12">
-            {{ myWater.name }}<br>
-            {{ myWater.latitude }}, {{ myWater.longitude }}<br>
-            <router-link v-if="myWater.city !== null" :to="{name: 'WaterListCity', params: {city: myWater.city.id }}">{{ myWater.city.name }}, </router-link>
+            Lat./Long. {{ myWater.latitude }}, {{ myWater.longitude }}<br>
+            Located in <router-link v-if="myWater.city !== null" :to="{name: 'WaterListCity', params: {city: myWater.city.id }}">{{ myWater.city.name }}, </router-link>
             <router-link v-if="myWater.city !== null" :to="{name: 'WaterListState', params: {state: myWater.state.id }}">{{ myWater.state.abbr }}, </router-link> 
             <router-link v-else :to="{name: 'WaterListState', params: {state: myWater.state.id }}">{{ myWater.state.name }}, </router-link>
-            <router-link :to="{name: 'WaterListCountry', params: {country: myWater.country.id }}">{{ myWater.country.abbr }}</router-link><br>
-            <router-link :to="{name: 'WaterListCounty', params: {county: myWater.county.id }}">{{ myWater.county.name }} County</router-link><br>
+            <router-link :to="{name: 'WaterListCountry', params: {country: myWater.country.id }}">{{ myWater.country.abbr }}</router-link> (<router-link :to="{name: 'WaterListCounty', params: {county: myWater.county.id }}">{{ myWater.county.name }} County</router-link>)<br>
             <a :href="'https://maps.google.com/?q=' + myWater.latitude + ',' + myWater.longitude + '&ll=' + myWater.latitude + ',' + myWater.longitude + '&z=14'" target="_blank">View on Google Maps</a><br>
 		</div>
 	</div>
