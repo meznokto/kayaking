@@ -33,6 +33,7 @@ declare module 'vue' {
     LaunchDetail: typeof import('./src/components/LaunchDetail.vue')['default']
     LaunchList: typeof import('./src/components/LaunchList.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
+    NavBar: typeof import('./src/components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TripDetail: typeof import('./src/components/TripDetail.vue')['default']

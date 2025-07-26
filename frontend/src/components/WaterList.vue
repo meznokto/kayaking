@@ -66,16 +66,16 @@
 		// clear our filters and reload the launch list
 		params = ""
 		if (typeof route.params.city !== 'undefined') {
-			route.params.city = null;
+			route.params.city = (function () { return; })();
 		}
 		if (typeof route.params.county !== 'undefined') {
-			route.params.county = null;
+			route.params.county = (function () { return; })();
 		}
 		if (typeof route.params.state !== 'undefined') {
-			route.params.state = null;
+			route.params.state = (function () { return; })();
 		}
-		if (typeof route.params.state !== 'undefined') {
-			route.params.country = null;
+		if (typeof route.params.country !== 'undefined') {
+			route.params.country = (function () { return; })();
 		}
 
 		fetchInitialWaters();
@@ -109,7 +109,8 @@
 			listMessage.value += " in " + waterList.value[0].city.name
 		}
 		else if (typeof route.params.county !== 'undefined' && waterList.value[0].county !== null) {
-			listMessage.value += " in " + waterList.value[0].county.name
+			listMessage.value += " in " + waterList.value[0].county.name + " County, "
+			listMessage.value += waterList.value[0].state.abbr
 		}
 		else if (typeof route.params.state !== 'undefined' && waterList.value[0].state !== null) {
 			listMessage.value += " in " + waterList.value[0].state.name

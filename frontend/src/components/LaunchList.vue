@@ -1,10 +1,12 @@
 <template>
 <div class="app">
-	<div v-if="route.params.city || route.params.county || route.params.state || route.params.country" class="col-md-12">
-		<h3>Filtered Boat Launches</h3>
+	<div class="col-md-12">
+	<div v-if="fetchingLaunches">
+		<h3>Loading...</h3>
 	</div>
-	<div v-else class="col-md-12">
-		<h3>Latest Boat Launches</h3>
+	<div v-else>
+		<h3>{{ listMessage }}</h3>
+	</div>
 	</div>
 	<div v-if="fetchingLaunches">
 		<b-spinner variant="primary" label="Loading"></b-spinner>
@@ -65,6 +67,7 @@
 	const route = useRoute();
 	const launchList = ref([] as launch[])
 	const fetchingLaunches = ref(false)
+	const listMessage = ref("Loading...")
 	let params = '?';
 
 	if (typeof route.params.city !== 'undefined') {
@@ -84,16 +87,16 @@
 		// clear our filters and reload the launch list
 		params = ""
 		if (typeof route.params.city !== 'undefined') {
-			route.params.city = null;
+			route.params.city = (function () { return; })();
 		}
 		if (typeof route.params.county !== 'undefined') {
-			route.params.county = null;
+			route.params.county = (function () { return; })();
 		}
 		if (typeof route.params.state !== 'undefined') {
-			route.params.state = null;
+			route.params.state = (function () { return; })();
 		}
 		if (typeof route.params.state !== 'undefined') {
-			route.params.country = null;
+			route.params.country = (function () { return; })();
 		}
 
 		fetchInitialLaunches();
@@ -120,6 +123,22 @@
 		} catch(error) {
 			console.error("Error fetching initial launches:", error.message)
 		}
+		listMessage.value = "Boat Launches"
+
+		if (typeof route.params.city !== 'undefined' && launchList.value[0].city !== null) {
+			listMessage.value += " in " + launchList.value[0].city.name
+		}
+		else if (typeof route.params.county !== 'undefined' && launchList.value[0].county !== null) {
+			listMessage.value += " in " + launchList.value[0].county.name + " County, "
+			listMessage.value += launchList.value[0].state.abbr
+		}
+		else if (typeof route.params.state !== 'undefined' && launchList.value[0].state !== null) {
+			listMessage.value += " in " + launchList.value[0].state.name
+		}
+		else if (typeof route.params.country !== 'undefined' && launchList.value[0].country !== null) {
+			listMessage.value += " in " + launchList.value[0].country.name
+		}
+
 		fetchingLaunches.value = false
 	}
 
