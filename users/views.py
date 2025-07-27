@@ -34,14 +34,18 @@ class KayakUsersAPI(APIView):
         
         if 'fields' in request.GET:
             if request.GET['fields'] == 'all':
-                fields = None
-        else:
-            if 'field' in request.GET:
-                if request.GET['field'] == 'all':
-                    fields = None
-                else:
-                    fields = request.GET.getlist('field')
-                    fields.append('id')  # always include the ID field
+                fields = None  # return all fields
+        elif 'field' in request.GET:
+            if request.GET['field'] == 'all':
+                fields = None  # return all fields
+        if not 'fields' in locals():
+            if 'fields' in request.GET:
+                # if specific fields are requested, filter them
+                fields = request.GET.get('fields').split(',')
+                fields.append('id') # always include the ID field
+            elif 'field' in request.GET:
+                fields = request.GET.get('field').split(',')
+                fields.append('id')
             else:
                 fields = ('id', 'email')  # default fields
 
