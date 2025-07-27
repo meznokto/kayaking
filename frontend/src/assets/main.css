@@ -3,14 +3,12 @@
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 2rem; */
   font-weight: normal;
 }
 
 #navbar {
   /* max-width: 1280px; */
   margin: 0 auto;
-  /* padding: 2rem; */
   font-weight: normal;
 }
 
@@ -23,7 +21,6 @@ a,
   text-decoration: none;
   color: #0d6efd;
   transition: 0.4s;
-  padding: 3px;
 }
 
 @media (hover: hover) {
