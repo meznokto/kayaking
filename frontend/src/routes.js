@@ -12,6 +12,7 @@ import CreateCity from './components/CreateCity.vue'
 import CreateCounty from './components/CreateCounty.vue'
 import CreateState from './components/CreateState.vue'
 import CreateCountry from './components/CreateCountry.vue'
+import CreateWater from './components/CreateWater.vue'
 
 const routes = [
   { path: '/', name: "Home", component: HomePage },
@@ -35,6 +36,8 @@ const routes = [
   { path: '/create/county/', name: "CreateCounty", component: CreateCounty },
   { path: '/create/state/', name: "CreateState", component: CreateState },
   { path: '/create/country/', name: "CreateCountry", component: CreateCountry },
+
+  { path: '/create/water/', name: "CreateWater", component: CreateWater },
 ]
 const router = createRouter({
   history: createMemoryHistory(),

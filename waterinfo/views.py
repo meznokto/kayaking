@@ -1,13 +1,19 @@
 from rest_framework.views import APIView # type: ignore
 from rest_framework.response import Response # type: ignore
-from rest_framework.exceptions import NotFound # type: ignore
+from rest_framework.exceptions import NotFound, PermissionDenied # type: ignore
 from rest_framework import status # type: ignore
+from rest_framework.permissions import IsAuthenticated # type: ignore
+from rest_framework_simplejwt.authentication import JWTAuthentication # type: ignore
+from rest_framework.permissions import AllowAny # type: ignore
 from django.shortcuts import get_object_or_404
 
 from .models import Water
 from .serializers import WaterSerializer
 
 class WaterAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]  # Allow any user to access this API
+
     queryset = Water.objects.all().order_by('-date_updated')
     serializer_class = WaterSerializer
 
@@ -68,11 +74,14 @@ class WaterAPI(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            water = serializer.save()
-            return Response(WaterSerializer(water).data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_authenticated:
+            serializer = self.serializer_class(data=request.data)
+            if serializer.is_valid():
+                water = serializer.save()
+                return Response(WaterSerializer(water).data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            raise PermissionDenied("Must be logged in to create a body of water.")
 
     def put(self, request, pk):
         water = get_object_or_404(Water, pk=pk)

@@ -21,6 +21,7 @@
 			</ul>
 		</div>
 	</div>
+	<router-link v-if="authStore.accesstoken" :to="{name: 'CreateWater'}">Add a Body of Water</router-link>
 	<div v-if="route.params.city || route.params.county || route.params.state || route.params.country">
 		<button @click="clearFilters" class="btn btn-secondary mt-3">Clear Filters</button>
 	</div>
@@ -32,7 +33,10 @@
 	import { useRoute } from 'vue-router';
 	import { fetchWrapper } from '@/helpers';
 	import GlobalVariables from '../globals.js'
-	import CreateCity from './CreateCity.vue';
+	import { useAuthStore } from '@/stores';
+	import CreateWater from './CreateWater.vue';
+
+	const authStore = useAuthStore();
 
 	interface water {
 		id: number;
@@ -85,7 +89,7 @@
 		fetchingWaters.value = true
 
 		try {
-			const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+			const waterInfoResponse = await fetchWrapper.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
 
 			waterList.value.push(...(waterInfoResponse.data || []))
 		} catch(error) {
@@ -98,7 +102,7 @@
 		fetchingWaters.value = true
 
 		try {
-			const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
+			const waterInfoResponse = await fetchWrapper.get<water[]>(GlobalVariables.apiURL + 'waterinfo/' + params)
 			waterList.value = waterInfoResponse
 		} catch(error) {
 			console.error("Error fetching water list:", error.message)

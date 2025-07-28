@@ -24,6 +24,7 @@ declare module 'vue' {
     CreateCountry: typeof import('./src/components/CreateCountry.vue')['default']
     CreateCounty: typeof import('./src/components/CreateCounty.vue')['default']
     CreateState: typeof import('./src/components/CreateState.vue')['default']
+    CreateWater: typeof import('./src/components/CreateWater.vue')['default']
     HomePage: typeof import('./src/components/HomePage.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
