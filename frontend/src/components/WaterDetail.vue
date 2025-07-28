@@ -10,10 +10,10 @@
 	<div v-else class="row">
 		<div class="col-md-12">
             Lat./Long. {{ myWater.latitude }}, {{ myWater.longitude }}<br>
-            Located in <router-link v-if="myWater.city !== null" :to="{name: 'WaterListCity', params: {city: myWater.city.id }}">{{ myWater.city.name }}, </router-link>
-            <router-link v-if="myWater.city !== null" :to="{name: 'WaterListState', params: {state: myWater.state.id }}">{{ myWater.state.abbr }}, </router-link> 
-            <router-link v-else :to="{name: 'WaterListState', params: {state: myWater.state.id }}">{{ myWater.state.name }}, </router-link>
-            <router-link :to="{name: 'WaterListCountry', params: {country: myWater.country.id }}">{{ myWater.country.abbr }}</router-link> (<router-link :to="{name: 'WaterListCounty', params: {county: myWater.county.id }}">{{ myWater.county.name }} County</router-link>)<br>
+            Located in <router-link v-if="myWater.city !== null" :to="{name: 'WaterListCity', params: {city: myWater.city }}">{{ myWater.city_name }}, </router-link>
+            <router-link v-if="myWater.city !== null" :to="{name: 'WaterListState', params: {state: myWater.state }}">{{ myWater.state_abbr }}, </router-link> 
+            <router-link v-else :to="{name: 'WaterListState', params: {state: myWater.state }}">{{ myWater.state_name }}, </router-link>
+            <router-link :to="{name: 'WaterListCountry', params: {country: myWater.country }}">{{ myWater.country_abbr }}</router-link> (<router-link :to="{name: 'WaterListCounty', params: {county: myWater.county }}">{{ myWater.county_name }} County</router-link>)<br>
             <a :href="'https://maps.google.com/?q=' + myWater.latitude + ',' + myWater.longitude + '&ll=' + myWater.latitude + ',' + myWater.longitude + '&z=14'" target="_blank">View on Google Maps</a><br>
 		</div>
 	</div>
@@ -48,10 +48,15 @@
         water_type_text: string;
         latitude: number;
         longitude: number;
-        city: { id: number; name: string };
-        state: { id: number; name: string; abbr: string };
-        country: { id: number; abbr: string };
-        county: { id: number; name: string };
+        city: number;
+        city_name: string;
+        county: number;
+        county_name: string;
+        state: number;
+        state_name: string; 
+        state_abbr: string;
+        country: number;
+        country_abbr: string;
 	}
 
     interface launch {
@@ -70,10 +75,15 @@
         water_type_text: '',
         latitude: 0,
         longitude: 0,
-        city: { id: 0, name: '' },
-        state: { id: 0, name: '', abbr: '' },
-        country: { id: 0, abbr: '' },
-        county: { id: 0, name: '' }
+        city: 0, 
+        city_name: '',
+        state: 0, 
+        state_name: '', 
+        state_abbr: '',
+        country: 0, 
+        country_abbr: '',
+        county: 0, 
+        county_name: '',
     })
 
     const launchList = ref([] as launch[])
@@ -86,7 +96,7 @@
         const id = route.params.waterid
 
         try {
-            const waterInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'waterinfo/?water=' + id + "&fields=all")
+            const waterInfoResponse = await fetchWrapper.get<water[]>(GlobalVariables.apiURL + 'waterinfo/?water=' + id + "&fields=all")
         
             if (waterInfoResponse.length > 0) {
                 myWater.value = waterInfoResponse[0]
@@ -97,7 +107,7 @@
 
         // find launches on this body of water
         try {
-		    const launchInfoResponse = await fetchWrapper.get<trip[]>(GlobalVariables.apiURL + 'launchinfo/?waterid=' + id)
+		    const launchInfoResponse = await fetchWrapper.get<water[]>(GlobalVariables.apiURL + 'launchinfo/?waterid=' + id)
 		    launchList.value = launchInfoResponse
         } catch(error) {
             if (error.response && error.response.status === 404) {

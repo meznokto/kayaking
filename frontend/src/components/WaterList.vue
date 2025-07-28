@@ -16,7 +16,7 @@
 			<ul class="list-group">
 				<li v-for="water in waterList" :key=water.id class="list-group-item">
 					<router-link :to="{name: 'WaterDetail', params: { waterid: water.id }}">
-					{{water.name}} - <div v-if="water.city !== null" style="display:inline;">{{water.city.name}}, </div>{{water.state.abbr}}, {{water.country.abbr}}</router-link>
+					{{water.name}} - <div v-if="water.city !== null" style="display:inline;">{{water.city_name}}, </div>{{water.state_abbr}}, {{water.country_abbr}}</router-link>
 				</li>
 			</ul>
 		</div>
@@ -41,29 +41,35 @@
 	interface water {
 		id: number;
 		name: string;
-		city: { name: string };
-		county: { name: string };
-		state: { abbr: string };
-		country: { abbr: string };
+		city: number;
+		city_name: string;
+		county: number;
+		county_name: string;
+		state: number;
+		state_name: string;
+		state_abbr: string;
+		country: number;
+		country_name: string;
+		country_abbr: string;
 	}
 
 	const route = useRoute();
 	const waterList = ref([] as water[])
 	const fetchingWaters = ref(false)
 	const listMessage = ref("Loading...")
-	let params = '?';
+	let params = '?fields=all';
 
 	if (typeof route.params.city !== 'undefined') {
-		params += "city=" + route.params.city;
+		params += "&city=" + route.params.city;
 	}
 	else if (typeof route.params.county !== 'undefined') {
-		params += "county=" + route.params.county;
+		params += "&county=" + route.params.county;
 	}
 	else if (typeof route.params.state !== 'undefined') {
-		params += "state=" + route.params.state;
+		params += "&state=" + route.params.state;
 	}
 	else if (typeof route.params.country !== 'undefined') {
-		params += "country=" + route.params.country;
+		params += "&country=" + route.params.country;
 	}
 
 	function clearFilters() {
@@ -110,17 +116,17 @@
 		listMessage.value = "Bodies of Water"
 
 		if (typeof route.params.city !== 'undefined' && waterList.value[0].city !== null) {
-			listMessage.value += " in " + waterList.value[0].city.name
+			listMessage.value += " in " + waterList.value[0].city_name
 		}
 		else if (typeof route.params.county !== 'undefined' && waterList.value[0].county !== null) {
-			listMessage.value += " in " + waterList.value[0].county.name + " County, "
-			listMessage.value += waterList.value[0].state.abbr
+			listMessage.value += " in " + waterList.value[0].county_name + " County, "
+			listMessage.value += waterList.value[0].state_name
 		}
 		else if (typeof route.params.state !== 'undefined' && waterList.value[0].state !== null) {
-			listMessage.value += " in " + waterList.value[0].state.name
+			listMessage.value += " in " + waterList.value[0].state_name
 		}
 		else if (typeof route.params.country !== 'undefined' && waterList.value[0].country !== null) {
-			listMessage.value += " in " + waterList.value[0].country.name
+			listMessage.value += " in " + waterList.value[0].country_name
 		}
 
 		fetchingWaters.value = false

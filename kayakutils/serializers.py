@@ -3,6 +3,8 @@ from rest_framework import serializers # type: ignore
 from kayakutils.models import Country, State, County, City
 
 class CitySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = City
         fields = ['id', 'name', 'state', 'county']
@@ -18,6 +20,8 @@ class CitySerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 class StateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = State
         fields = ['id', 'name', 'abbr', 'country']
@@ -33,6 +37,8 @@ class StateSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 class CountySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = County
         fields = ['id', 'name', 'state'] 
@@ -48,6 +54,8 @@ class CountySerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 class CountrySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    
     class Meta:
         model = Country
         fields = ['id', 'name', 'abbr']

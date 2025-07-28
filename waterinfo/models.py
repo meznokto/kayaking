@@ -34,11 +34,12 @@ class Water(models.Model):
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     county = models.ForeignKey(County, on_delete=models.SET_NULL, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Country,  on_delete=models.SET_NULL, null=True)
     acres = models.FloatField(default=0)    # if we're given one of these we can calculate the other
     hectares = models.FloatField(default=0)
     max_depth_feet = models.PositiveSmallIntegerField(default=0) # we can calculate these, too
     max_depth_meters = models.DecimalField(decimal_places=1, max_digits=10, default=0)
+    description = models.TextField(default="")
 
     def __str__(self):
         return self.name
