@@ -74,7 +74,7 @@
 
 	function clearFilters() {
 		// clear our filters and reload the launch list
-		params = ""
+		params = '?fields=all'
 		if (typeof route.params.city !== 'undefined') {
 			route.params.city = (function () { return; })();
 		}
